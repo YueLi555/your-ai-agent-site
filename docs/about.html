@@ -1,9 +1,8 @@
-<!-- /Users/yueli/Desktop/your-ai-agent/docs/About.html -->
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>About</title>
     <style>
       :root{
@@ -18,9 +17,11 @@
         --shadow-plate2: 0 12px 40px rgba(0,0,0,.06);
 
         --safe-top: env(safe-area-inset-top, 0px);
-        --safe-bottom: env(safe-area-inset-bottom, 0px);
-        --safe-left: env(safe-area-inset-left, 0px);
         --safe-right: env(safe-area-inset-right, 0px);
+        --safe-left: env(safe-area-inset-left, 0px);
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+        --nav-h: 56px;
       }
 
       *{ box-sizing:border-box; }
@@ -33,47 +34,109 @@
         font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
           sans-serif;
-        overflow:hidden; /* desktop */
+        overflow-x:hidden;
+        min-height: 100svh;
+        padding-bottom: calc(var(--safe-bottom) + 18px);
       }
 
       *::-webkit-scrollbar{ width:0; height:0; }
       *{ scrollbar-width:none; }
 
-      .nav{
-        position: fixed;
-        top: calc(18px + var(--safe-top));
-        right: calc(22px + var(--safe-right));
+      /* ---------- NAV (Desktop: inline links | Mobile: hamburger) ---------- */
+      .navShell{
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding-top: var(--safe-top);
+        background: linear-gradient(to bottom, rgba(255,255,255,.94), rgba(255,255,255,.78), rgba(255,255,255,0));
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .navBar{
+        height: var(--nav-h);
         display:flex;
-        gap:22px;
+        align-items:center;
+        justify-content:flex-end;
+        gap: 18px;
+        padding: 0 calc(18px + var(--safe-right)) 0 calc(18px + var(--safe-left));
+      }
+
+      .navLinks{
+        display:flex;
+        gap: 44px;
         align-items:center;
         font-size:14px;
         letter-spacing:.02em;
         color: rgba(15,17,21,.45);
         user-select:none;
-        z-index: 10;
       }
-      .nav a{
+
+      .navLinks a{
         color:inherit;
         text-decoration:none;
         transition:opacity 160ms ease;
       }
-      .nav a:hover{ opacity:.75; }
+      .navLinks a:hover{ opacity:.75; }
 
+      .navToggle{
+        display:none;
+        border:0;
+        background: rgba(15,17,21,.04);
+        box-shadow: 0 12px 28px rgba(0,0,0,.06);
+        border-radius: 999px;
+        padding: 10px 12px;
+        cursor:pointer;
+      }
+      .navToggle:focus-visible{
+        outline: 2px solid rgba(15,17,21,.18);
+        outline-offset: 3px;
+      }
+      .hamburger{
+        width: 18px;
+        height: 14px;
+        display:grid;
+        gap: 3px;
+      }
+      .hamburger span{
+        height: 2px;
+        width: 100%;
+        background: rgba(15,17,21,.55);
+        border-radius: 2px;
+      }
+
+      .navPanel{
+        display:none;
+        padding: 6px calc(18px + var(--safe-right)) 14px calc(18px + var(--safe-left));
+      }
+      .navPanel a{
+        display:block;
+        padding: 12px 12px;
+        border-radius: 14px;
+        text-decoration:none;
+        color: rgba(15,17,21,.78);
+        letter-spacing:.02em;
+        background: rgba(15,17,21,.03);
+        box-shadow: 0 12px 28px rgba(0,0,0,.06);
+        margin-top: 10px;
+      }
+
+      body.nav-open .navPanel{ display:block; }
+
+      /* ---------- STAGE / STACK ---------- */
       .stage{
-        min-height: 100dvh;
+        min-height: calc(100svh - var(--nav-h) - var(--safe-top));
         display:grid;
         place-items:center;
-        padding:
-          calc(72px + var(--safe-top))
-          calc(24px + var(--safe-right))
-          calc(110px + var(--safe-bottom))
-          calc(24px + var(--safe-left));
+        padding: 24px;
+        padding-left: calc(24px + var(--safe-left));
+        padding-right: calc(24px + var(--safe-right));
       }
 
       .stack{
         position:relative;
         width:min(980px,92vw);
-        height:420px; /* desktop baseline; mobile will be set by JS */
+        height: 420px;
       }
 
       .plate{
@@ -104,11 +167,13 @@
         overflow:hidden;
       }
 
+      /* flip engine */
       .flipWrap{ position:absolute; inset:0; perspective: 1200px; }
       .flip{
         position:absolute; inset:0;
         transform-style: preserve-3d;
         transition: transform 520ms cubic-bezier(.2,.8,.2,1);
+        will-change: transform;
       }
       .flip.is-flipped{ transform: rotateX(180deg); }
       .face{
@@ -118,13 +183,14 @@
       }
       .face.b{ transform: rotateX(180deg); }
 
+      /* Page */
       .page{
         position:absolute;
         inset:0;
         display:flex;
         align-items:center;
         justify-content:center;
-        padding:48px 56px;
+        padding: clamp(22px, 4vw, 48px) clamp(18px, 4.2vw, 56px);
       }
 
       .hero{
@@ -132,13 +198,14 @@
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:28px;
+        gap: clamp(14px, 2.4vw, 28px);
+        min-width:0;
       }
 
       .heroLeft{
         display:flex;
         align-items:flex-start;
-        gap:18px;
+        gap: 18px;
         min-width:0;
       }
 
@@ -153,7 +220,7 @@
       .heroText{
         display:flex;
         flex-direction:column;
-        gap:10px;
+        gap: 10px;
         min-width:0;
       }
 
@@ -170,15 +237,15 @@
         font-family: "Manrope", system-ui, sans-serif;
         font-weight: 650;
         letter-spacing: -0.02em;
-        font-size: 46px;
-        line-height: 1.04;
+        font-size: clamp(28px, 5vw, 46px);
+        line-height: 1.06;
       }
 
       .heroSub{
         margin:0;
         max-width: 560px;
-        font-size:16px;
-        line-height:1.55;
+        font-size: clamp(14px, 2.1vw, 16px);
+        line-height:1.58;
         letter-spacing:.02em;
         color: rgba(15,17,21,.50);
       }
@@ -188,8 +255,8 @@
         padding-left: 18px;
         max-width: 560px;
         color: rgba(15,17,21,.50);
-        font-size:16px;
-        line-height:1.55;
+        font-size: clamp(14px, 2.1vw, 16px);
+        line-height:1.58;
         letter-spacing:.02em;
       }
       .heroList li{ margin: 8px 0; }
@@ -202,8 +269,6 @@
         border-radius:0;
         background:transparent;
         box-shadow:none;
-        backdrop-filter:none;
-        -webkit-backdrop-filter:none;
 
         cursor:pointer;
         display:grid;
@@ -214,8 +279,15 @@
         flex: 0 0 auto;
       }
 
-      .heroArrow:hover{ transform: translateX(3px); opacity:1; }
-      .heroArrow:active{ transform: translateX(2px); }
+      .heroArrow:hover{
+        transform: translateX(3px);
+        opacity:1;
+      }
+
+      .heroArrow:active{
+        transform: translateX(2px);
+      }
+
       .heroArrow:focus-visible{
         outline: 2px solid rgba(15,17,21,.18);
         outline-offset: 3px;
@@ -227,13 +299,16 @@
         color: rgba(15,17,21,.38);
         transition: color 160ms ease;
       }
-      .heroArrow:hover .arrowIcon{ color: rgba(15,17,21,.58); }
 
+      .heroArrow:hover .arrowIcon{
+        color: rgba(15,17,21,.58);
+      }
+
+      /* Footer/status */
       .status{
-        position: fixed;
-        left: calc(16px + var(--safe-left));
-        right: calc(16px + var(--safe-right));
-        bottom: calc(14px + var(--safe-bottom));
+        position: static;
+        margin-top: 16px;
+        padding: 0 calc(18px + var(--safe-right)) 0 calc(18px + var(--safe-left));
         display:flex;
         justify-content:center;
         flex-wrap:wrap;
@@ -243,7 +318,7 @@
         letter-spacing:.14em;
         color: rgba(15,17,21,.34);
         user-select:none;
-        z-index: 10;
+        padding-bottom: calc(var(--safe-bottom) + 18px);
       }
 
       .status__copy{ white-space:nowrap; }
@@ -261,89 +336,121 @@
         transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, opacity 140ms ease;
         opacity:.92;
       }
+
       .status__link:hover{
         transform: translateY(-1px);
         background: rgba(15,17,21,.06);
         box-shadow: 0 16px 36px rgba(0,0,0,.08);
         opacity:1;
       }
+
       .status__link:active{ transform: translateY(0); }
+
       .status__link:focus-visible{
         outline: 2px solid rgba(15,17,21,.18);
         outline-offset: 2px;
       }
 
-      @media (prefers-reduced-motion: reduce){
-        .flip, .heroArrow { transition:none; }
+      /* ---------- Mobile breakpoints ---------- */
+      @media (max-width: 900px){
+        .stack{ width: min(980px, 94vw); }
       }
 
-      /* ✅ Mobile: allow scroll + vertical layout + JS-driven height */
-      @media (max-width:720px){
-        body{ overflow:auto; } /* critical */
-        :root{ --radius: 22px; }
+      @media (max-width: 720px){
+        .navLinks{ display:none; }
+        .navToggle{ display:inline-flex; align-items:center; justify-content:center; }
 
         .stage{
-          place-items: start center;
-          padding:
-            calc(66px + var(--safe-top))
-            calc(16px + var(--safe-right))
-            calc(118px + var(--safe-bottom))
-            calc(16px + var(--safe-left));
+          padding: 16px;
+          padding-left: calc(16px + var(--safe-left));
+          padding-right: calc(16px + var(--safe-right));
         }
 
         .stack{
-          width: min(980px, 94vw);
-          height: auto;          /* JS will set an explicit px height */
-          min-height: 420px;     /* fallback before JS runs */
+          height: auto;
+          min-height: min(560px, 78svh);
         }
 
-        .plate.back2{ inset: 16px -18px -16px 18px; }
-        .plate.back1{ inset: 8px -10px -8px 10px; }
+        .plate.back2{ inset: 18px -18px -18px 18px; }
+        .plate.back1{ inset: 9px -9px -9px 9px; }
 
         .page{
-          padding: 22px 18px 18px;
-          align-items:flex-start;
+          padding: 22px 18px;
+          align-items: stretch;
         }
 
         .hero{
           flex-direction: column;
-          align-items: stretch;
-          justify-content:flex-start;
+          align-items: flex-start;
+          justify-content: flex-start;
           gap: 16px;
         }
 
-        .logoMark{ width:36px; height:36px; margin-top: 2px; }
+        .heroLeft{
+          gap: 14px;
+        }
 
-        .heroTitle{ font-size: clamp(26px, 7vw, 38px); }
+        .logoMark{
+          width: 38px;
+          height: 38px;
+          margin-top: 4px;
+        }
+
         .heroSub, .heroList{
-          font-size: 14px;
           max-width: 100%;
         }
 
-        .heroArrow{ align-self: flex-end; }
-        .arrowIcon{ width:44px; height:44px; }
+        .heroArrow{
+          align-self: center;
+          margin-top: 6px;
+        }
 
-        .status{ font-size:11px; letter-spacing:.12em; }
-        .status__copy{ white-space: normal; text-align:center; }
+        .arrowIcon{
+          width: 46px;
+          height: 46px;
+        }
+
+        .status__copy{ white-space:normal; text-align:center; }
       }
 
-      @media (max-width:360px){
-        .nav{ gap: 16px; font-size: 13px; }
-        .page{ padding: 18px 14px 14px; }
+      @media (max-width: 380px){
+        .stack{ min-height: min(620px, 84svh); }
+        .heroLeft{ align-items:flex-start; }
+      }
+
+      @media (prefers-reduced-motion: reduce){
+        .flip, .heroArrow { transition:none; }
       }
     </style>
   </head>
 
   <body>
-    <nav class="nav" aria-label="Top Navigation">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="#help">Help</a>
-      <a href="#go">GO</a>
-    </nav>
+    <header class="navShell">
+      <div class="navBar" aria-label="Top Navigation">
+        <nav class="navLinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html" aria-current="page">About</a>
+          <a href="#help">Help</a>
+          <a href="#go">GO</a>
+        </nav>
+
+        <button class="navToggle" type="button" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel">
+          <span class="hamburger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+      </div>
+
+      <nav class="navPanel" id="navPanel" aria-label="Mobile menu">
+        <a href="index.html">Home</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="#help">Help</a>
+        <a href="#go">GO</a>
+      </nav>
+    </header>
 
     <main class="stage">
-      <section class="stack" id="stack" aria-label="Hero Card Stack">
+      <section class="stack" aria-label="Hero Card Stack">
         <div class="plate back2" aria-hidden="true"></div>
         <div class="plate back1" aria-hidden="true"></div>
 
@@ -533,7 +640,6 @@
 
     <script>
       (function () {
-        const stack = document.getElementById("stack");
         const flip = document.getElementById("flip");
         const faceA = document.getElementById("faceA");
         const faceB = document.getElementById("faceB");
@@ -556,22 +662,6 @@
           currentIndex = mod(index, pages.length);
         }
 
-        function getActiveFaceEl() {
-          return showingA ? faceA : faceB;
-        }
-
-        function updateStackHeight() {
-          if (!stack) return;
-
-          const activeFace = getActiveFaceEl();
-          const pageEl = activeFace.querySelector(".page");
-          if (!pageEl) return;
-
-          // Use scrollHeight so long text fits; add a little breathing room.
-          const h = pageEl.scrollHeight + 16;
-          stack.style.height = h + "px";
-        }
-
         function flipTo(targetIndex) {
           if (isAnimating) return;
           isAnimating = true;
@@ -580,27 +670,17 @@
           const hiddenFace = showingA ? faceB : faceA;
 
           setFaceContent(hiddenFace, nextIndex);
+          flip.classList.toggle("is-flipped", showingA);
 
-          // Give layout a tick so scrollHeight is correct before anim starts on mobile
-          requestAnimationFrame(() => {
-            flip.classList.toggle("is-flipped", showingA);
+          const onEnd = (e) => {
+            if (e.propertyName !== "transform") return;
+            flip.removeEventListener("transitionend", onEnd);
 
-            const onEnd = (e) => {
-              if (e.propertyName !== "transform") return;
-              flip.removeEventListener("transitionend", onEnd);
-
-              showingA = !showingA;
-              setActiveIndex(nextIndex);
-              isAnimating = false;
-
-              // After flip, the “active face” changes -> recalc height
-              requestAnimationFrame(updateStackHeight);
-            };
-            flip.addEventListener("transitionend", onEnd);
-
-            // Also resize early to avoid clipping during animation on small screens
-            updateStackHeight();
-          });
+            showingA = !showingA;
+            setActiveIndex(nextIndex);
+            isAnimating = false;
+          };
+          flip.addEventListener("transitionend", onEnd);
         }
 
         function next() { flipTo(currentIndex + 1); }
@@ -614,9 +694,6 @@
 
           const y = document.getElementById("year");
           if (y) y.textContent = String(new Date().getFullYear());
-
-          // Initial height based on first page
-          requestAnimationFrame(updateStackHeight);
         }
 
         document.addEventListener("click", (e) => {
@@ -633,9 +710,66 @@
           if (e.key === "Escape") flipTo(0);
         });
 
-        window.addEventListener("resize", () => {
-          // On mobile orientation change, etc.
-          requestAnimationFrame(updateStackHeight);
+        // Mobile swipe (horizontal)
+        let touchX0 = 0;
+        let touchY0 = 0;
+        let touchActive = false;
+
+        function onTouchStart(e) {
+          if (!e.touches || e.touches.length !== 1) return;
+          touchActive = true;
+          touchX0 = e.touches[0].clientX;
+          touchY0 = e.touches[0].clientY;
+        }
+
+        function onTouchEnd(e) {
+          if (!touchActive) return;
+          touchActive = false;
+
+          const t = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : null;
+          if (!t) return;
+
+          const dx = t.clientX - touchX0;
+          const dy = t.clientY - touchY0;
+
+          const absX = Math.abs(dx);
+          const absY = Math.abs(dy);
+
+          if (absX < 40 || absX < absY) return;
+          if (dx < 0) next();
+          else prev();
+        }
+
+        const stack = document.querySelector(".stack");
+        if (stack) {
+          stack.addEventListener("touchstart", onTouchStart, { passive: true });
+          stack.addEventListener("touchend", onTouchEnd, { passive: true });
+        }
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById("navToggle");
+        const navPanel = document.getElementById("navPanel");
+
+        function setNavOpen(open) {
+          document.body.classList.toggle("nav-open", open);
+          if (navToggle) navToggle.setAttribute("aria-expanded", String(open));
+          if (navToggle) navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+          if (navPanel) navPanel.setAttribute("aria-hidden", String(!open));
+        }
+
+        if (navPanel) navPanel.setAttribute("aria-hidden", "true");
+        if (navToggle) {
+          navToggle.addEventListener("click", () => {
+            const open = document.body.classList.contains("nav-open");
+            setNavOpen(!open);
+          });
+        }
+
+        document.addEventListener("click", (e) => {
+          if (!document.body.classList.contains("nav-open")) return;
+          const inPanel = e.target.closest("#navPanel");
+          const inToggle = e.target.closest("#navToggle");
+          if (!inPanel && !inToggle) setNavOpen(false);
         });
 
         init();
