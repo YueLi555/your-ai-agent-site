@@ -236,11 +236,6 @@
         color: rgba(15,17,21,.58);
       }
 
-      @media (max-width:720px){
-        .heroArrow{ width:64px; height:64px; }
-        .arrowIcon{ width:46px; height:46px; }
-      }
-
       .status{
         position:absolute;
         left:0; right:0;
@@ -290,99 +285,125 @@
         .flip, .heroArrow { transition:none; }
       }
 
-      @media (max-width:720px){
-        /* Keep desktop untouched: all changes here are mobile-only */
+@media (max-width:720px){
+  /* Mobile-only: keep desktop untouched */
 
-        /* Give header/footer breathing room so the card never sits under them */
-        .stage{
-          padding: 72px 16px 76px;
-        }
+  /* iOS notch safe-area support */
+  :root{
+    --safe-top: env(safe-area-inset-top);
+    --safe-bottom: env(safe-area-inset-bottom);
 
-        /* Make nav/footer fit smaller screens without overlapping the card */
-        .nav{
-          left:16px;
-          right:16px;
-          top:14px;
-          justify-content:flex-end;
-          gap:18px;
-          font-size:13px;
-        }
+    /* Mobile spacing (tuned) */
+    --stage-pad-x: 16px;
+    --stage-pad-top: 68px;
+    --stage-pad-bottom: 74px;
+  }
 
-        .status{
-          bottom:18px;
-          padding:0 16px;
-          gap:8px;
-          letter-spacing:.12em;
-        }
+  /* Give header/footer breathing room so the card never sits under them */
+  .stage{
+    padding:
+      calc(var(--stage-pad-top) + var(--safe-top))
+      var(--stage-pad-x)
+      calc(var(--stage-pad-bottom) + var(--safe-bottom));
+  }
 
-        .status__link{
-          padding: .24rem .62rem;
-        }
+  /* Make nav/footer fit smaller screens without overlapping the card */
+  .nav{
+    left: var(--stage-pad-x);
+    right: var(--stage-pad-x);
+    top: calc(12px + var(--safe-top));
+    justify-content:flex-end;
+    gap:18px;
+    font-size:13px;
+  }
 
-        /* Card stack: size to viewport (safe units), never exceed header/footer */
-        .stack{
-          width:min(980px,92vw);
-          height: calc(100svh - 72px - 76px);
-          min-height: 320px;
-          max-height: 560px;
-        }
+  .status{
+    bottom: calc(14px + var(--safe-bottom));
+    padding:0 var(--stage-pad-x);
+    gap:8px;
+    letter-spacing:.12em;
+  }
 
-        /* Allow scrolling inside the card if copy is long (body stays locked) */
-        .face{
-          overflow:auto;
-          -webkit-overflow-scrolling: touch;
-        }
+  .status__link{
+    padding: .26rem .64rem;
+  }
 
-        /* Page layout: stop absolute centering so content doesn't get clipped */
-        .page{
-          position:relative;
-          inset:auto;
-          width:100%;
-          height:auto;
-          padding:26px 18px;
-          display:flex;
-          align-items:flex-start;
-          justify-content:flex-start;
-        }
+  /* Card stack: fit viewport (safe units), never exceed header/footer */
+  .stack{
+    width: min(980px, 92vw);
+    height: calc(
+      100svh
+      - (var(--stage-pad-top) + var(--safe-top))
+      - (var(--stage-pad-bottom) + var(--safe-bottom))
+    );
+    min-height: 340px;
+    max-height: 620px;
+  }
 
-        .hero{
-          flex-direction:column;
-          align-items:stretch;
-          justify-content:flex-start;
-          gap:18px;
-        }
+  /* Allow scrolling inside the card if copy is long (body stays locked) */
+  .face{
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
-        .heroLeft{
-          gap:14px;
-        }
+  /* Page layout: avoid absolute centering so content doesn't get clipped */
+  .page{
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:auto;
+    padding:24px 18px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:flex-start;
+  }
 
-        .logoMark{
-          width:36px;
-          height:36px;
-          margin-top: 2px;
-        }
+  .hero{
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    gap:16px;
+  }
 
-        .heroTitle{
-          font-size:32px;
-        }
+  .heroLeft{
+    gap:12px;
+  }
 
-        .heroSub,
-        .heroList{
-          max-width:none;
-          font-size:14px;
-        }
+  .logoMark{
+    width:34px;
+    height:34px;
+    margin-top: 2px;
+  }
 
-        /* Arrow stays inside the card content, aligned neatly */
-        .heroArrow{
-          align-self:flex-end;
-          margin-top: 2px;
-        }
+  .heroTitle{
+    font-size:30px;
+    line-height:1.08;
+  }
 
-        .arrowIcon{
-          width:46px;
-          height:46px;
-        }
-      }
+  .heroSub,
+  .heroList{
+    max-width:none;
+    font-size:14px;
+    line-height:1.6;
+  }
+
+  .heroList{
+    padding-left: 18px;
+  }
+
+  /* Better tap target on mobile */
+  .heroArrow{
+    align-self:flex-end;
+    min-width:56px;
+    min-height:56px;
+    margin-top: 2px;
+  }
+
+  .arrowIcon{
+    width:44px;
+    height:44px;
+  }
+}
     </style>
   </head>
 
