@@ -186,105 +186,6 @@
         letter-spacing:.02em;
       }
       .heroList li{ margin: 8px 0; }
-
-      @media (max-width:720px){
-        .heroTitle{ font-size:38px; }
-        .heroSub, .heroList{ font-size:14px; max-width: 420px; }
-      }
-
-      .heroArrow{
-        width:auto;
-        height:auto;
-        padding:0;
-        border:0;
-        border-radius:0;
-        background:transparent;
-        box-shadow:none;
-        backdrop-filter:none;
-        -webkit-backdrop-filter:none;
-
-        cursor:pointer;
-        display:grid;
-        place-items:center;
-
-        transition: transform 160ms ease, opacity 160ms ease;
-        opacity:.9;
-      }
-
-      .heroArrow:hover{
-        transform: translateX(3px);
-        opacity:1;
-      }
-
-      .heroArrow:active{
-        transform: translateX(2px);
-      }
-
-      .heroArrow:focus-visible{
-        outline: 2px solid rgba(15,17,21,.18);
-        outline-offset: 3px;
-      }
-
-      .arrowIcon{
-        width:56px;
-        height:56px;
-        color: rgba(15,17,21,.38);
-        transition: color 160ms ease;
-      }
-
-      .heroArrow:hover .arrowIcon{
-        color: rgba(15,17,21,.58);
-      }
-
-      .status{
-        position:absolute;
-        left:0; right:0;
-        bottom:34px;
-        display:flex;
-        justify-content:center;
-        flex-wrap:wrap;
-        gap:10px;
-        align-items:center;
-        font-size:12px;
-        letter-spacing:.14em;
-        color: rgba(15,17,21,.34);
-        user-select:none;
-      }
-
-      .status__copy{ white-space:nowrap; }
-      .status__sep{ opacity:.65; }
-
-      .status__link{
-        text-decoration:none;
-        padding: .28rem .72rem;
-        border-radius: 999px;
-        border:0;
-        color: inherit;
-
-        background: rgba(15,17,21,.04);
-        box-shadow: 0 12px 28px rgba(0,0,0,.06);
-        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, opacity 140ms ease;
-        opacity:.92;
-      }
-
-      .status__link:hover{
-        transform: translateY(-1px);
-        background: rgba(15,17,21,.06);
-        box-shadow: 0 16px 36px rgba(0,0,0,.08);
-        opacity:1;
-      }
-
-      .status__link:active{ transform: translateY(0); }
-
-      .status__link:focus-visible{
-        outline: 2px solid rgba(15,17,21,.18);
-        outline-offset: 2px;
-      }
-
-      @media (prefers-reduced-motion: reduce){
-        .flip, .heroArrow { transition:none; }
-      }
-
 @media (max-width:720px){
   /* Mobile-only: keep desktop untouched */
 
@@ -403,6 +304,124 @@
     width:44px;
     height:44px;
   }
+}
+      .heroArrow{
+        width:auto;
+        height:auto;
+        padding:0;
+        border:0;
+        border-radius:0;
+        background:transparent;
+        box-shadow:none;
+        backdrop-filter:none;
+        -webkit-backdrop-filter:none;
+
+        cursor:pointer;
+        display:grid;
+        place-items:center;
+
+        transition: transform 160ms ease, opacity 160ms ease;
+        opacity:.9;
+      }
+
+      .heroArrow:hover{
+        transform: translateX(3px);
+        opacity:1;
+      }
+
+      .heroArrow:active{
+        transform: translateX(2px);
+      }
+
+      .heroArrow:focus-visible{
+        outline: 2px solid rgba(15,17,21,.18);
+        outline-offset: 3px;
+      }
+
+      .arrowIcon{
+        width:56px;
+        height:56px;
+        color: rgba(15,17,21,.38);
+        transition: color 160ms ease;
+      }
+
+      .heroArrow:hover .arrowIcon{
+        color: rgba(15,17,21,.58);
+      }
+
+      .status{
+        position:absolute;
+        left:0; right:0;
+        bottom:34px;
+        display:flex;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:10px;
+        align-items:center;
+        font-size:12px;
+        letter-spacing:.14em;
+        color: rgba(15,17,21,.34);
+        user-select:none;
+      }
+
+      .status__copy{ white-space:nowrap; }
+      .status__sep{ opacity:.65; }
+
+      .status__link{
+        text-decoration:none;
+        padding: .28rem .72rem;
+        border-radius: 999px;
+        border:0;
+        color: inherit;
+
+        background: rgba(15,17,21,.04);
+        box-shadow: 0 12px 28px rgba(0,0,0,.06);
+        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, opacity 140ms ease;
+        opacity:.92;
+      }
+
+      .status__link:hover{
+        transform: translateY(-1px);
+        background: rgba(15,17,21,.06);
+        box-shadow: 0 16px 36px rgba(0,0,0,.08);
+        opacity:1;
+      }
+
+      .status__link:active{ transform: translateY(0); }
+
+      .status__link:focus-visible{
+        outline: 2px solid rgba(15,17,21,.18);
+        outline-offset: 2px;
+      }
+
+     @media (max-width: 720px){
+  /* 允许整页滚动（你原来 body overflow:hidden 会锁死页面） */
+  body{ overflow:auto; }
+
+  /* iOS: transform 容器里滚动很容易失效，所以移动端直接禁用 3D flip */
+  .flipWrap{ perspective: none !important; }
+  .flip{
+    transform: none !important;
+    transition: none !important;
+    transform-style: flat !important;
+  }
+
+  /* 只用 A 面承载内容，B 面隐藏，避免任何 rotateX/backface 干扰触摸 */
+  .face{
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+    overflow: visible !important;
+  }
+  .face.b{ display:none !important; }
+
+  /* 主卡片别再裁剪滚动 */
+  .plate.main{ overflow: visible !important; }
+
+  /* 让卡片高度自然增长（可滚动），避免固定高度把内容“锁”在里面 */
+  .stack{ height:auto !important; }
 }
     </style>
   </head>
