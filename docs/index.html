@@ -1,0 +1,511 @@
+<!-- /Users/yueli/Desktop/your-ai-agent/docs/index.html -->
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AGENT.AI</title>
+    <style>
+      :root{
+        --bg:#fff;
+        --text:#0f1115;
+        --muted: rgba(15,17,21,.38);
+
+        --radius: 26px;
+
+        /* soft, single-direction shadows like your screenshot */
+        --shadow-card: 0 22px 70px rgba(0,0,0,.10);
+        --shadow-plate: 0 18px 60px rgba(0,0,0,.08);
+        --shadow-plate2: 0 12px 40px rgba(0,0,0,.06);
+      }
+
+      *{ box-sizing:border-box; }
+      html,body{ height:100%; }
+
+      body{
+        margin:0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+          sans-serif;
+        overflow:hidden;
+      }
+
+      *::-webkit-scrollbar{ width:0; height:0; }
+      *{ scrollbar-width:none; }
+
+      .nav{
+        position:absolute;
+        top:28px;
+        right:56px;
+        display:flex;
+        gap:44px;
+        align-items:center;
+        font-size:14px;
+        letter-spacing:.02em;
+        color: rgba(15,17,21,.45);
+        user-select:none;
+      }
+      .nav a{
+        color:inherit;
+        text-decoration:none;
+        transition:opacity 160ms ease;
+      }
+      .nav a:hover{ opacity:.75; }
+
+      .stage{
+        height:100%;
+        display:grid;
+        place-items:center;
+        padding:24px;
+      }
+
+      /* main stack like screenshot */
+      .stack{
+        position:relative;
+        width:min(980px,92vw);
+        height:380px;
+      }
+
+      .plate{
+        position:absolute;
+        inset:0;
+        border-radius: var(--radius);
+        background: rgba(255,255,255,.98);
+      }
+
+      .plate.back2{
+        inset: 22px -26px -22px 26px;
+        opacity:.75;
+        box-shadow: var(--shadow-plate);
+        filter: blur(.1px);
+      }
+
+      .plate.back1{
+        inset: 10px -12px -10px 12px;
+        opacity:.85;
+        box-shadow: var(--shadow-plate2);
+        filter: blur(.1px);
+      }
+
+      .plate.main{
+        inset:0;
+        background:#fff;
+        box-shadow: var(--shadow-card);
+        overflow:hidden;
+      }
+
+      /* flip engine */
+      .flipWrap{ position:absolute; inset:0; perspective: 1200px; }
+      .flip{
+        position:absolute; inset:0;
+        transform-style: preserve-3d;
+        transition: transform 520ms cubic-bezier(.2,.8,.2,1);
+      }
+      .flip.is-flipped{ transform: rotateX(180deg); }
+      .face{
+        position:absolute; inset:0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      .face.b{ transform: rotateX(180deg); }
+
+      /* hero content (no inner boxes) */
+      .page{
+        position:absolute;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:48px 56px;
+      }
+
+      .hero{
+        width:100%;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:28px;
+      }
+
+      .heroLeft{
+        display:flex;
+        align-items:center;
+        gap:18px;
+        min-width:0;
+      }
+
+      .logoMark{
+        width:44px;
+        height:44px;
+        opacity:.32;
+        flex:0 0 auto;
+      }
+.heroTitle{
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+      .heroText{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:0;
+}
+
+.heroKicker{
+  margin:0;
+  font-size:12px;
+  letter-spacing:.22em;
+  color: rgba(15,17,21,.38);
+  text-transform: uppercase;
+}
+
+.heroSub{
+  margin:0;
+  max-width: 520px;
+  font-size:16px;
+  line-height:1.55;
+  letter-spacing:.02em;
+  color: rgba(15,17,21,.50);
+}
+
+@media (max-width:720px){
+  .heroSub{ font-size:14px; max-width: 420px; }
+}
+.heroArrow{
+  width:auto;
+  height:auto;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+
+  transition: transform 160ms ease, opacity 160ms ease;
+  opacity:.9;
+}
+
+.heroArrow:hover{
+  transform: translateX(3px);
+  opacity:1;
+}
+
+.heroArrow:active{
+  transform: translateX(2px);
+}
+
+.heroArrow:focus-visible{
+  outline: 2px solid rgba(15,17,21,.18);
+  outline-offset: 3px;
+}
+
+.arrowIcon{
+  width:56px;
+  height:56px;
+  color: rgba(15,17,21,.38);  /* ✅ 半透明箭头 */
+  transition: color 160ms ease;
+}
+
+.heroArrow:hover .arrowIcon{
+  color: rgba(15,17,21,.58);  /* hover 更清晰 */
+}
+@media (max-width:720px){
+  .heroArrow{ width:64px; height:64px; }
+  .arrowIcon{ width:46px; height:46px; }
+}
+
+      /* dots: optional; hide by default to match your screenshot clean look */
+      .dots{
+        position:absolute;
+        left:0; right:0;
+        bottom:22px;
+        display:none;
+        justify-content:center;
+        gap:8px;
+        pointer-events:none;
+      }
+      .dot{
+        width:6px; height:6px;
+        border-radius:999px;
+        background: rgba(15,17,21,.18);
+        opacity:.45;
+        transform: scale(1);
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+      .dot.is-active{ opacity:.9; transform: scale(1.25); }
+
+.status{
+  position:absolute;
+  left:0; right:0;
+  bottom:34px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  font-size:12px;
+  letter-spacing:.14em;
+  color: rgba(15,17,21,.34);
+  user-select:none;
+}
+
+.status__copy{ white-space:nowrap; }
+.status__sep{ opacity:.65; }
+
+.status__link{
+  text-decoration:none;
+  padding: .28rem .72rem;
+  border-radius: 999px;
+  border:0;
+  color: inherit;
+
+  background: rgba(15,17,21,.04);
+  box-shadow: 0 12px 28px rgba(0,0,0,.06);
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, opacity 140ms ease;
+  opacity:.92;
+}
+
+.status__link:hover{
+  transform: translateY(-1px);
+  background: rgba(15,17,21,.06);
+  box-shadow: 0 16px 36px rgba(0,0,0,.08);
+  opacity:1;
+}
+
+.status__link:active{ transform: translateY(0); }
+
+.status__link:focus-visible{
+  outline: 2px solid rgba(15,17,21,.18);
+  outline-offset: 2px;
+}
+
+      @media (prefers-reduced-motion: reduce){
+        .flip, .heroArrow { transition:none; }
+      }
+
+      @media (max-width:720px){
+        .nav{ right:22px; top:18px; gap:22px; }
+        .stack{ height:320px; }
+        .page{ padding:32px 22px; }
+        .heroTitle{ font-size:38px; }
+        .heroArrow{ width:64px; height:64px; }
+        .arrowIcon{ width:42px; height:42px; }
+        .logoMark{ width:38px; height:38px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="nav" aria-label="Top Navigation">
+      <a href="about.html">About</a>
+      <a href="#help">Help</a>
+      <a href="#go">GO</a>
+    </nav>
+
+    <main class="stage">
+      <section class="stack" aria-label="Hero Card Stack">
+        <div class="plate back2" aria-hidden="true"></div>
+        <div class="plate back1" aria-hidden="true"></div>
+
+        <div class="plate main" aria-label="Main Card">
+          <div class="flipWrap">
+            <div class="flip" id="flip" aria-live="polite">
+              <div class="face a" id="faceA"></div>
+              <div class="face b" id="faceB"></div>
+            </div>
+          </div>
+
+          <div class="dots" id="dots" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="status" role="contentinfo" aria-label="Site footer">
+    <span class="status__copy">© <span id="year"></span> 2026 YOUR AI Agent. All rights reserved.</span>
+    <span class="status__sep" aria-hidden="true">•</span>
+    <a class="status__link" href="/terms" rel="nofollow">Terms</a>
+    <span class="status__sep" aria-hidden="true">•</span>
+    <a class="status__link" href="/privacy" rel="nofollow">Privacy</a>
+    </div>
+
+    <!-- Minimal pages: match screenshot, no inner boxes -->
+    <template data-page>
+      <div class="page">
+        <div class="hero">
+          <div class="heroLeft">
+            <svg class="logoMark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2.6 4.2 7.1v9.8L12 21.4l7.8-4.5V7.1L12 2.6Z"
+                stroke="rgba(15,17,21,0.8)" stroke-width="1.4" stroke-linejoin="round"/>
+              <path d="M10 14.5V9.8l4-2.3v4.7l-4 2.3Z"
+                fill="rgba(15,17,21,0.18)"/>
+            </svg>
+            <div class="heroText">
+  <h1 class="heroTitle">Sale Agent Product</h1>
+
+<p class="heroSub">
+A sales AI agent built for Product-Led Growth (PLG).
+
+From the very first user interaction, it automatically identifies customer needs, matches the right solutions, drives conversion, 
+and manages follow-up — turning every interaction into an executable sales action, while continuously learning and improving through real-world usage.
+</p>
+
+</div>
+          </div>
+
+          <button class="heroArrow" type="button" data-action="next" aria-label="Next">
+<svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M5 12h10.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M13.2 7.3 20 12l-6.8 4.7" stroke="currentColor"
+    stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <template data-page>
+      <div class="page">
+        <div class="hero">
+          <div class="heroLeft">
+            <svg class="logoMark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2.6 4.2 7.1v9.8L12 21.4l7.8-4.5V7.1L12 2.6Z"
+                stroke="rgba(15,17,21,0.8)" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+            <div class="heroText">
+            <h1 class="heroTitle">Agent Value Proposition</h1>
+<p class="heroSub">
+Increase conversion rates while reducing manual sales effort.
+Shorten sales cycles and amplify overall sales efficiency.
+Continuously reuse what works — proven strategies, workflows, and decisions —
+and evolve with every user interaction.
+</p>
+            </div>
+          </div>
+
+          <button class="heroArrow" type="button" data-action="next" aria-label="Next">
+            <svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h10.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M13.2 7.3 20 12l-6.8 4.7" stroke="currentColor"
+                stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <template data-page>
+      <div class="page">
+        <div class="hero">
+          <div class="heroLeft">
+            <svg class="logoMark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2.6 4.2 7.1v9.8L12 21.4l7.8-4.5V7.1L12 2.6Z"
+                stroke="rgba(15,17,21,0.8)" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+            <h1 class="heroTitle">YOUR AI Agent</h1>
+          </div>
+
+          <button class="heroArrow" type="button" data-action="next" aria-label="Next">
+            <svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h10.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M13.2 7.3 20 12l-6.8 4.7" stroke="currentColor"
+                stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      (function () {
+        const flip = document.getElementById("flip");
+        const faceA = document.getElementById("faceA");
+        const faceB = document.getElementById("faceB");
+        const dots = document.getElementById("dots");
+
+        const templates = Array.from(document.querySelectorAll("template[data-page]"));
+        const pages = templates.map((t) => t.innerHTML.trim()).filter(Boolean);
+
+        let currentIndex = 0;
+        let showingA = true;
+        let isAnimating = false;
+
+        function mod(n, m) { return ((n % m) + m) % m; }
+
+        function renderDots(activeIndex) {
+          if (!dots) return;
+          dots.innerHTML = "";
+          for (let i = 0; i < pages.length; i++) {
+            const d = document.createElement("div");
+            d.className = "dot" + (i === activeIndex ? " is-active" : "");
+            dots.appendChild(d);
+          }
+        }
+
+        function setFaceContent(faceEl, index) {
+          faceEl.innerHTML = pages[index];
+          faceEl.setAttribute("data-page-index", String(index));
+        }
+
+        function setActiveIndex(index) {
+          currentIndex = mod(index, pages.length);
+          renderDots(currentIndex);
+        }
+
+        function flipTo(targetIndex) {
+          if (isAnimating) return;
+          isAnimating = true;
+
+          const nextIndex = mod(targetIndex, pages.length);
+          const hiddenFace = showingA ? faceB : faceA;
+
+          setFaceContent(hiddenFace, nextIndex);
+          flip.classList.toggle("is-flipped", showingA);
+
+          const onEnd = (e) => {
+            if (e.propertyName !== "transform") return;
+            flip.removeEventListener("transitionend", onEnd);
+
+            showingA = !showingA;
+            setActiveIndex(nextIndex);
+            isAnimating = false;
+          };
+          flip.addEventListener("transitionend", onEnd);
+        }
+
+        function next() { flipTo(currentIndex + 1); }
+        function prev() { flipTo(currentIndex - 1); }
+
+        function init() {
+          setFaceContent(faceA, 0);
+          setFaceContent(faceB, 1);
+          setActiveIndex(0);
+          flip.classList.remove("is-flipped");
+        }
+
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-action]");
+          if (!btn) return;
+          const action = btn.getAttribute("data-action");
+          if (action === "next") next();
+          if (action === "prev") prev();
+        });
+
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
+          if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
+          if (e.key === "Escape") flipTo(0);
+        });
+
+        init();
+      })();
+    </script>
+  </body>
+</html>
