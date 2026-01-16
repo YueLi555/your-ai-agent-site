@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>About</title>
     <style>
       :root{
@@ -12,16 +12,10 @@
 
         --radius: 26px;
 
+        /* soft, single-direction shadows like your screenshot */
         --shadow-card: 0 22px 70px rgba(0,0,0,.10);
         --shadow-plate: 0 18px 60px rgba(0,0,0,.08);
         --shadow-plate2: 0 12px 40px rgba(0,0,0,.06);
-
-        --safe-top: env(safe-area-inset-top, 0px);
-        --safe-right: env(safe-area-inset-right, 0px);
-        --safe-left: env(safe-area-inset-left, 0px);
-        --safe-bottom: env(safe-area-inset-bottom, 0px);
-
-        --nav-h: 56px;
       }
 
       *{ box-sizing:border-box; }
@@ -34,109 +28,43 @@
         font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
           sans-serif;
-        overflow-x:hidden;
-        min-height: 100svh;
-        padding-bottom: calc(var(--safe-bottom) + 18px);
+        overflow:hidden;
       }
 
       *::-webkit-scrollbar{ width:0; height:0; }
       *{ scrollbar-width:none; }
 
-      /* ---------- NAV (Desktop: inline links | Mobile: hamburger) ---------- */
-      .navShell{
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        padding-top: var(--safe-top);
-        background: linear-gradient(to bottom, rgba(255,255,255,.94), rgba(255,255,255,.78), rgba(255,255,255,0));
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-      }
-
-      .navBar{
-        height: var(--nav-h);
+      .nav{
+        position:absolute;
+        top:28px;
+        right:56px;
         display:flex;
-        align-items:center;
-        justify-content:flex-end;
-        gap: 18px;
-        padding: 0 calc(18px + var(--safe-right)) 0 calc(18px + var(--safe-left));
-      }
-
-      .navLinks{
-        display:flex;
-        gap: 44px;
+        gap:44px;
         align-items:center;
         font-size:14px;
         letter-spacing:.02em;
         color: rgba(15,17,21,.45);
         user-select:none;
       }
-
-      .navLinks a{
+      .nav a{
         color:inherit;
         text-decoration:none;
         transition:opacity 160ms ease;
       }
-      .navLinks a:hover{ opacity:.75; }
+      .nav a:hover{ opacity:.75; }
 
-      .navToggle{
-        display:none;
-        border:0;
-        background: rgba(15,17,21,.04);
-        box-shadow: 0 12px 28px rgba(0,0,0,.06);
-        border-radius: 999px;
-        padding: 10px 12px;
-        cursor:pointer;
-      }
-      .navToggle:focus-visible{
-        outline: 2px solid rgba(15,17,21,.18);
-        outline-offset: 3px;
-      }
-      .hamburger{
-        width: 18px;
-        height: 14px;
-        display:grid;
-        gap: 3px;
-      }
-      .hamburger span{
-        height: 2px;
-        width: 100%;
-        background: rgba(15,17,21,.55);
-        border-radius: 2px;
-      }
-
-      .navPanel{
-        display:none;
-        padding: 6px calc(18px + var(--safe-right)) 14px calc(18px + var(--safe-left));
-      }
-      .navPanel a{
-        display:block;
-        padding: 12px 12px;
-        border-radius: 14px;
-        text-decoration:none;
-        color: rgba(15,17,21,.78);
-        letter-spacing:.02em;
-        background: rgba(15,17,21,.03);
-        box-shadow: 0 12px 28px rgba(0,0,0,.06);
-        margin-top: 10px;
-      }
-
-      body.nav-open .navPanel{ display:block; }
-
-      /* ---------- STAGE / STACK ---------- */
       .stage{
-        min-height: calc(100svh - var(--nav-h) - var(--safe-top));
+        height:100%;
         display:grid;
         place-items:center;
-        padding: 24px;
-        padding-left: calc(24px + var(--safe-left));
-        padding-right: calc(24px + var(--safe-right));
+        padding:24px;
       }
 
+      /* main stack like screenshot */
       .stack{
         position:relative;
         width:min(980px,92vw);
-        height: 420px;
+        height:420px;
       }
 
       .plate{
@@ -173,7 +101,6 @@
         position:absolute; inset:0;
         transform-style: preserve-3d;
         transition: transform 520ms cubic-bezier(.2,.8,.2,1);
-        will-change: transform;
       }
       .flip.is-flipped{ transform: rotateX(180deg); }
       .face{
@@ -183,14 +110,14 @@
       }
       .face.b{ transform: rotateX(180deg); }
 
-      /* Page */
+      /* hero content (no inner boxes) */
       .page{
         position:absolute;
         inset:0;
         display:flex;
         align-items:center;
         justify-content:center;
-        padding: clamp(22px, 4vw, 48px) clamp(18px, 4.2vw, 56px);
+        padding:48px 56px;
       }
 
       .hero{
@@ -198,14 +125,13 @@
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap: clamp(14px, 2.4vw, 28px);
-        min-width:0;
+        gap:28px;
       }
 
       .heroLeft{
         display:flex;
         align-items:flex-start;
-        gap: 18px;
+        gap:18px;
         min-width:0;
       }
 
@@ -220,7 +146,7 @@
       .heroText{
         display:flex;
         flex-direction:column;
-        gap: 10px;
+        gap:10px;
         min-width:0;
       }
 
@@ -237,15 +163,15 @@
         font-family: "Manrope", system-ui, sans-serif;
         font-weight: 650;
         letter-spacing: -0.02em;
-        font-size: clamp(28px, 5vw, 46px);
-        line-height: 1.06;
+        font-size: 46px;
+        line-height: 1.04;
       }
 
       .heroSub{
         margin:0;
         max-width: 560px;
-        font-size: clamp(14px, 2.1vw, 16px);
-        line-height:1.58;
+        font-size:16px;
+        line-height:1.55;
         letter-spacing:.02em;
         color: rgba(15,17,21,.50);
       }
@@ -255,11 +181,16 @@
         padding-left: 18px;
         max-width: 560px;
         color: rgba(15,17,21,.50);
-        font-size: clamp(14px, 2.1vw, 16px);
-        line-height:1.58;
+        font-size:16px;
+        line-height:1.55;
         letter-spacing:.02em;
       }
       .heroList li{ margin: 8px 0; }
+
+      @media (max-width:720px){
+        .heroTitle{ font-size:38px; }
+        .heroSub, .heroList{ font-size:14px; max-width: 420px; }
+      }
 
       .heroArrow{
         width:auto;
@@ -269,6 +200,8 @@
         border-radius:0;
         background:transparent;
         box-shadow:none;
+        backdrop-filter:none;
+        -webkit-backdrop-filter:none;
 
         cursor:pointer;
         display:grid;
@@ -276,7 +209,6 @@
 
         transition: transform 160ms ease, opacity 160ms ease;
         opacity:.9;
-        flex: 0 0 auto;
       }
 
       .heroArrow:hover{
@@ -304,11 +236,15 @@
         color: rgba(15,17,21,.58);
       }
 
-      /* Footer/status */
+      @media (max-width:720px){
+        .heroArrow{ width:64px; height:64px; }
+        .arrowIcon{ width:46px; height:46px; }
+      }
+
       .status{
-        position: static;
-        margin-top: 16px;
-        padding: 0 calc(18px + var(--safe-right)) 0 calc(18px + var(--safe-left));
+        position:absolute;
+        left:0; right:0;
+        bottom:34px;
         display:flex;
         justify-content:center;
         flex-wrap:wrap;
@@ -318,7 +254,6 @@
         letter-spacing:.14em;
         color: rgba(15,17,21,.34);
         user-select:none;
-        padding-bottom: calc(var(--safe-bottom) + 18px);
       }
 
       .status__copy{ white-space:nowrap; }
@@ -351,103 +286,113 @@
         outline-offset: 2px;
       }
 
-      /* ---------- Mobile breakpoints ---------- */
-      @media (max-width: 900px){
-        .stack{ width: min(980px, 94vw); }
+      @media (prefers-reduced-motion: reduce){
+        .flip, .heroArrow { transition:none; }
       }
 
-      @media (max-width: 720px){
-        .navLinks{ display:none; }
-        .navToggle{ display:inline-flex; align-items:center; justify-content:center; }
+      @media (max-width:720px){
+        /* Keep desktop untouched: all changes here are mobile-only */
 
+        /* Give header/footer breathing room so the card never sits under them */
         .stage{
-          padding: 16px;
-          padding-left: calc(16px + var(--safe-left));
-          padding-right: calc(16px + var(--safe-right));
+          padding: 72px 16px 76px;
         }
 
+        /* Make nav/footer fit smaller screens without overlapping the card */
+        .nav{
+          left:16px;
+          right:16px;
+          top:14px;
+          justify-content:flex-end;
+          gap:18px;
+          font-size:13px;
+        }
+
+        .status{
+          bottom:18px;
+          padding:0 16px;
+          gap:8px;
+          letter-spacing:.12em;
+        }
+
+        .status__link{
+          padding: .24rem .62rem;
+        }
+
+        /* Card stack: size to viewport (safe units), never exceed header/footer */
         .stack{
-          height: auto;
-          min-height: min(560px, 78svh);
+          width:min(980px,92vw);
+          height: calc(100svh - 72px - 76px);
+          min-height: 320px;
+          max-height: 560px;
         }
 
-        .plate.back2{ inset: 18px -18px -18px 18px; }
-        .plate.back1{ inset: 9px -9px -9px 9px; }
+        /* Allow scrolling inside the card if copy is long (body stays locked) */
+        .face{
+          overflow:auto;
+          -webkit-overflow-scrolling: touch;
+        }
 
+        /* Page layout: stop absolute centering so content doesn't get clipped */
         .page{
-          padding: 22px 18px;
-          align-items: stretch;
+          position:relative;
+          inset:auto;
+          width:100%;
+          height:auto;
+          padding:26px 18px;
+          display:flex;
+          align-items:flex-start;
+          justify-content:flex-start;
         }
 
         .hero{
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: flex-start;
-          gap: 16px;
+          flex-direction:column;
+          align-items:stretch;
+          justify-content:flex-start;
+          gap:18px;
         }
 
         .heroLeft{
-          gap: 14px;
+          gap:14px;
         }
 
         .logoMark{
-          width: 38px;
-          height: 38px;
-          margin-top: 4px;
+          width:36px;
+          height:36px;
+          margin-top: 2px;
         }
 
-        .heroSub, .heroList{
-          max-width: 100%;
+        .heroTitle{
+          font-size:32px;
         }
 
+        .heroSub,
+        .heroList{
+          max-width:none;
+          font-size:14px;
+        }
+
+        /* Arrow stays inside the card content, aligned neatly */
         .heroArrow{
-          align-self: center;
-          margin-top: 6px;
+          align-self:flex-end;
+          margin-top: 2px;
         }
 
         .arrowIcon{
-          width: 46px;
-          height: 46px;
+          width:46px;
+          height:46px;
         }
-
-        .status__copy{ white-space:normal; text-align:center; }
-      }
-
-      @media (max-width: 380px){
-        .stack{ min-height: min(620px, 84svh); }
-        .heroLeft{ align-items:flex-start; }
-      }
-
-      @media (prefers-reduced-motion: reduce){
-        .flip, .heroArrow { transition:none; }
       }
     </style>
   </head>
 
   <body>
-    <header class="navShell">
-      <div class="navBar" aria-label="Top Navigation">
-        <nav class="navLinks" aria-label="Primary">
-          <a href="index.html">Home</a>
-          <a href="about.html" aria-current="page">About</a>
-          <a href="#help">Help</a>
-          <a href="#go">GO</a>
-        </nav>
-
-        <button class="navToggle" type="button" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel">
-          <span class="hamburger" aria-hidden="true">
-            <span></span><span></span><span></span>
-          </span>
-        </button>
-      </div>
-
-      <nav class="navPanel" id="navPanel" aria-label="Mobile menu">
-        <a href="index.html">Home</a>
-        <a href="about.html" aria-current="page">About</a>
-        <a href="#help">Help</a>
-        <a href="#go">GO</a>
-      </nav>
-    </header>
+    <nav class="nav" aria-label="Top Navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#help">Help</a>
+      <a href="#go">GO</a>
+    </nav>
 
     <main class="stage">
       <section class="stack" aria-label="Hero Card Stack">
@@ -473,7 +418,8 @@
       <a class="status__link" href="/privacy" rel="nofollow">Privacy</a>
     </div>
 
-    <!-- Pages -->
+    <!-- Pages: About content, same UI/interaction as index.html -->
+
     <template data-page>
       <div class="page">
         <div class="hero">
@@ -708,68 +654,6 @@
           if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
           if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
           if (e.key === "Escape") flipTo(0);
-        });
-
-        // Mobile swipe (horizontal)
-        let touchX0 = 0;
-        let touchY0 = 0;
-        let touchActive = false;
-
-        function onTouchStart(e) {
-          if (!e.touches || e.touches.length !== 1) return;
-          touchActive = true;
-          touchX0 = e.touches[0].clientX;
-          touchY0 = e.touches[0].clientY;
-        }
-
-        function onTouchEnd(e) {
-          if (!touchActive) return;
-          touchActive = false;
-
-          const t = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : null;
-          if (!t) return;
-
-          const dx = t.clientX - touchX0;
-          const dy = t.clientY - touchY0;
-
-          const absX = Math.abs(dx);
-          const absY = Math.abs(dy);
-
-          if (absX < 40 || absX < absY) return;
-          if (dx < 0) next();
-          else prev();
-        }
-
-        const stack = document.querySelector(".stack");
-        if (stack) {
-          stack.addEventListener("touchstart", onTouchStart, { passive: true });
-          stack.addEventListener("touchend", onTouchEnd, { passive: true });
-        }
-
-        // Mobile nav toggle
-        const navToggle = document.getElementById("navToggle");
-        const navPanel = document.getElementById("navPanel");
-
-        function setNavOpen(open) {
-          document.body.classList.toggle("nav-open", open);
-          if (navToggle) navToggle.setAttribute("aria-expanded", String(open));
-          if (navToggle) navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-          if (navPanel) navPanel.setAttribute("aria-hidden", String(!open));
-        }
-
-        if (navPanel) navPanel.setAttribute("aria-hidden", "true");
-        if (navToggle) {
-          navToggle.addEventListener("click", () => {
-            const open = document.body.classList.contains("nav-open");
-            setNavOpen(!open);
-          });
-        }
-
-        document.addEventListener("click", (e) => {
-          if (!document.body.classList.contains("nav-open")) return;
-          const inPanel = e.target.closest("#navPanel");
-          const inToggle = e.target.closest("#navToggle");
-          if (!inPanel && !inToggle) setNavOpen(false);
         });
 
         init();
