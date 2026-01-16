@@ -1,9 +1,10 @@
+<!-- /Users/yueli/Desktop/your-ai-agent/docs/About.html -->
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>AGENT.AI • About</title>
+    <title>About</title>
     <style>
       :root{
         --bg:#fff;
@@ -12,10 +13,14 @@
 
         --radius: 26px;
 
-        /* soft, single-direction shadows like your screenshot */
         --shadow-card: 0 22px 70px rgba(0,0,0,.10);
         --shadow-plate: 0 18px 60px rgba(0,0,0,.08);
         --shadow-plate2: 0 12px 40px rgba(0,0,0,.06);
+
+        --safe-top: env(safe-area-inset-top, 0px);
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+        --safe-left: env(safe-area-inset-left, 0px);
+        --safe-right: env(safe-area-inset-right, 0px);
       }
 
       *{ box-sizing:border-box; }
@@ -28,23 +33,24 @@
         font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
           sans-serif;
-        overflow:hidden;
+        overflow:hidden; /* desktop */
       }
 
       *::-webkit-scrollbar{ width:0; height:0; }
       *{ scrollbar-width:none; }
 
       .nav{
-        position:absolute;
-        top:28px;
-        right:56px;
+        position: fixed;
+        top: calc(18px + var(--safe-top));
+        right: calc(22px + var(--safe-right));
         display:flex;
-        gap:44px;
+        gap:22px;
         align-items:center;
         font-size:14px;
         letter-spacing:.02em;
         color: rgba(15,17,21,.45);
         user-select:none;
+        z-index: 10;
       }
       .nav a{
         color:inherit;
@@ -54,17 +60,20 @@
       .nav a:hover{ opacity:.75; }
 
       .stage{
-        height:100%;
+        min-height: 100dvh;
         display:grid;
         place-items:center;
-        padding:24px;
+        padding:
+          calc(72px + var(--safe-top))
+          calc(24px + var(--safe-right))
+          calc(110px + var(--safe-bottom))
+          calc(24px + var(--safe-left));
       }
 
-      /* main stack like screenshot */
       .stack{
         position:relative;
         width:min(980px,92vw);
-        height:420px;
+        height:420px; /* desktop baseline; mobile will be set by JS */
       }
 
       .plate{
@@ -95,7 +104,6 @@
         overflow:hidden;
       }
 
-      /* flip engine */
       .flipWrap{ position:absolute; inset:0; perspective: 1200px; }
       .flip{
         position:absolute; inset:0;
@@ -110,7 +118,6 @@
       }
       .face.b{ transform: rotateX(180deg); }
 
-      /* hero content (no inner boxes) */
       .page{
         position:absolute;
         inset:0;
@@ -187,11 +194,6 @@
       }
       .heroList li{ margin: 8px 0; }
 
-      @media (max-width:720px){
-        .heroTitle{ font-size:38px; }
-        .heroSub, .heroList{ font-size:14px; max-width: 420px; }
-      }
-
       .heroArrow{
         width:auto;
         height:auto;
@@ -209,17 +211,11 @@
 
         transition: transform 160ms ease, opacity 160ms ease;
         opacity:.9;
+        flex: 0 0 auto;
       }
 
-      .heroArrow:hover{
-        transform: translateX(3px);
-        opacity:1;
-      }
-
-      .heroArrow:active{
-        transform: translateX(2px);
-      }
-
+      .heroArrow:hover{ transform: translateX(3px); opacity:1; }
+      .heroArrow:active{ transform: translateX(2px); }
       .heroArrow:focus-visible{
         outline: 2px solid rgba(15,17,21,.18);
         outline-offset: 3px;
@@ -231,20 +227,13 @@
         color: rgba(15,17,21,.38);
         transition: color 160ms ease;
       }
-
-      .heroArrow:hover .arrowIcon{
-        color: rgba(15,17,21,.58);
-      }
-
-      @media (max-width:720px){
-        .heroArrow{ width:64px; height:64px; }
-        .arrowIcon{ width:46px; height:46px; }
-      }
+      .heroArrow:hover .arrowIcon{ color: rgba(15,17,21,.58); }
 
       .status{
-        position:absolute;
-        left:0; right:0;
-        bottom:34px;
+        position: fixed;
+        left: calc(16px + var(--safe-left));
+        right: calc(16px + var(--safe-right));
+        bottom: calc(14px + var(--safe-bottom));
         display:flex;
         justify-content:center;
         flex-wrap:wrap;
@@ -254,6 +243,7 @@
         letter-spacing:.14em;
         color: rgba(15,17,21,.34);
         user-select:none;
+        z-index: 10;
       }
 
       .status__copy{ white-space:nowrap; }
@@ -271,16 +261,13 @@
         transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, opacity 140ms ease;
         opacity:.92;
       }
-
       .status__link:hover{
         transform: translateY(-1px);
         background: rgba(15,17,21,.06);
         box-shadow: 0 16px 36px rgba(0,0,0,.08);
         opacity:1;
       }
-
       .status__link:active{ transform: translateY(0); }
-
       .status__link:focus-visible{
         outline: 2px solid rgba(15,17,21,.18);
         outline-offset: 2px;
@@ -290,11 +277,59 @@
         .flip, .heroArrow { transition:none; }
       }
 
+      /* ✅ Mobile: allow scroll + vertical layout + JS-driven height */
       @media (max-width:720px){
-        .nav{ right:22px; top:18px; gap:22px; }
-        .stack{ height:360px; }
-        .page{ padding:32px 22px; }
-        .logoMark{ width:38px; height:38px; }
+        body{ overflow:auto; } /* critical */
+        :root{ --radius: 22px; }
+
+        .stage{
+          place-items: start center;
+          padding:
+            calc(66px + var(--safe-top))
+            calc(16px + var(--safe-right))
+            calc(118px + var(--safe-bottom))
+            calc(16px + var(--safe-left));
+        }
+
+        .stack{
+          width: min(980px, 94vw);
+          height: auto;          /* JS will set an explicit px height */
+          min-height: 420px;     /* fallback before JS runs */
+        }
+
+        .plate.back2{ inset: 16px -18px -16px 18px; }
+        .plate.back1{ inset: 8px -10px -8px 10px; }
+
+        .page{
+          padding: 22px 18px 18px;
+          align-items:flex-start;
+        }
+
+        .hero{
+          flex-direction: column;
+          align-items: stretch;
+          justify-content:flex-start;
+          gap: 16px;
+        }
+
+        .logoMark{ width:36px; height:36px; margin-top: 2px; }
+
+        .heroTitle{ font-size: clamp(26px, 7vw, 38px); }
+        .heroSub, .heroList{
+          font-size: 14px;
+          max-width: 100%;
+        }
+
+        .heroArrow{ align-self: flex-end; }
+        .arrowIcon{ width:44px; height:44px; }
+
+        .status{ font-size:11px; letter-spacing:.12em; }
+        .status__copy{ white-space: normal; text-align:center; }
+      }
+
+      @media (max-width:360px){
+        .nav{ gap: 16px; font-size: 13px; }
+        .page{ padding: 18px 14px 14px; }
       }
     </style>
   </head>
@@ -308,7 +343,7 @@
     </nav>
 
     <main class="stage">
-      <section class="stack" aria-label="Hero Card Stack">
+      <section class="stack" id="stack" aria-label="Hero Card Stack">
         <div class="plate back2" aria-hidden="true"></div>
         <div class="plate back1" aria-hidden="true"></div>
 
@@ -331,8 +366,7 @@
       <a class="status__link" href="/privacy" rel="nofollow">Privacy</a>
     </div>
 
-    <!-- Pages: About content, same UI/interaction as index.html -->
-
+    <!-- Pages -->
     <template data-page>
       <div class="page">
         <div class="hero">
@@ -499,6 +533,7 @@
 
     <script>
       (function () {
+        const stack = document.getElementById("stack");
         const flip = document.getElementById("flip");
         const faceA = document.getElementById("faceA");
         const faceB = document.getElementById("faceB");
@@ -521,6 +556,22 @@
           currentIndex = mod(index, pages.length);
         }
 
+        function getActiveFaceEl() {
+          return showingA ? faceA : faceB;
+        }
+
+        function updateStackHeight() {
+          if (!stack) return;
+
+          const activeFace = getActiveFaceEl();
+          const pageEl = activeFace.querySelector(".page");
+          if (!pageEl) return;
+
+          // Use scrollHeight so long text fits; add a little breathing room.
+          const h = pageEl.scrollHeight + 16;
+          stack.style.height = h + "px";
+        }
+
         function flipTo(targetIndex) {
           if (isAnimating) return;
           isAnimating = true;
@@ -529,17 +580,27 @@
           const hiddenFace = showingA ? faceB : faceA;
 
           setFaceContent(hiddenFace, nextIndex);
-          flip.classList.toggle("is-flipped", showingA);
 
-          const onEnd = (e) => {
-            if (e.propertyName !== "transform") return;
-            flip.removeEventListener("transitionend", onEnd);
+          // Give layout a tick so scrollHeight is correct before anim starts on mobile
+          requestAnimationFrame(() => {
+            flip.classList.toggle("is-flipped", showingA);
 
-            showingA = !showingA;
-            setActiveIndex(nextIndex);
-            isAnimating = false;
-          };
-          flip.addEventListener("transitionend", onEnd);
+            const onEnd = (e) => {
+              if (e.propertyName !== "transform") return;
+              flip.removeEventListener("transitionend", onEnd);
+
+              showingA = !showingA;
+              setActiveIndex(nextIndex);
+              isAnimating = false;
+
+              // After flip, the “active face” changes -> recalc height
+              requestAnimationFrame(updateStackHeight);
+            };
+            flip.addEventListener("transitionend", onEnd);
+
+            // Also resize early to avoid clipping during animation on small screens
+            updateStackHeight();
+          });
         }
 
         function next() { flipTo(currentIndex + 1); }
@@ -553,6 +614,9 @@
 
           const y = document.getElementById("year");
           if (y) y.textContent = String(new Date().getFullYear());
+
+          // Initial height based on first page
+          requestAnimationFrame(updateStackHeight);
         }
 
         document.addEventListener("click", (e) => {
@@ -567,6 +631,11 @@
           if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
           if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
           if (e.key === "Escape") flipTo(0);
+        });
+
+        window.addEventListener("resize", () => {
+          // On mobile orientation change, etc.
+          requestAnimationFrame(updateStackHeight);
         });
 
         init();
