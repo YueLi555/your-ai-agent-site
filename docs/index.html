@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>YOUR AI</title>
+    <title>Home</title>
     <style>
       :root{
         --bg:#fff;
@@ -141,30 +141,24 @@
       .heroLeft{
         display:flex;
         align-items:center;
-        gap:18px;
         min-width:0;
+        flex:1 1 auto;
       }
 
-      .logoMark{
-        width:44px;
-        height:44px;
-        opacity:.32;
-        flex:0 0 auto;
-      }
 
       .heroTitle{
         font-family: "Manrope", system-ui, sans-serif;
         font-weight: 650;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
         margin: 0;
-        font-size: clamp(28px, 3.4vw, 44px);
-        line-height: 1.08;
+        font-size: clamp(30px, 3.8vw, 48px);
+        line-height: 1.04;
       }
 
       .heroText{
         display:flex;
         flex-direction:column;
-        gap:10px;
+        gap:14px;
         min-width:0;
       }
 
@@ -178,11 +172,11 @@
 
       .heroSub{
         margin:0;
-        max-width: 520px;
+        max-width: 640px;
         font-size:16px;
-        line-height:1.55;
-        letter-spacing:.02em;
-        color: rgba(15,17,21,.50);
+        line-height:1.7;
+        letter-spacing:.01em;
+        color: rgba(15,17,21,.56);
       }
 
       .heroArrow{
@@ -202,6 +196,7 @@
 
         transition: transform 160ms ease, opacity 160ms ease;
         opacity:.9;
+        align-self:center;
         flex: 0 0 auto;
       }
 
@@ -220,9 +215,9 @@
       }
 
       .arrowIcon{
-        width:56px;
-        height:56px;
-        color: rgba(15,17,21,.38);
+        width:46px;
+        height:46px;
+        color: rgba(15,17,21,.32);
         transition: color 160ms ease;
       }
 
@@ -339,14 +334,13 @@
 
         .heroLeft{
           align-items: flex-start;
-          gap: 14px;
         }
 
-        .logoMark{ width:36px; height:36px; }
 
         .heroSub{
           max-width: 100%;
           font-size: 14px;
+          line-height: 1.65;
         }
 
         .heroArrow{
@@ -372,7 +366,7 @@
 
   <body>
     <nav class="nav" aria-label="Top Navigation">
-      <a href="#about">About</a>
+      <a href="about.html">About</a>
       <a href="#help">Help</a>
       <a href="#go">GO</a>
     </nav>
@@ -399,7 +393,6 @@
       <span class="status__copy">© <span id="year"></span> YOUR AI Agent. All rights reserved.</span>
       <span class="status__sep" aria-hidden="true">•</span>
       <a class="status__link" href="/terms" rel="nofollow">Terms</a>
-      <span class="status__sep" aria-hidden="true">•</span>
       <a class="status__link" href="/privacy" rel="nofollow">Privacy</a>
     </div>
 
@@ -407,12 +400,7 @@
       <div class="page">
         <div class="hero">
           <div class="heroLeft">
-            <svg class="logoMark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2.6 4.2 7.1v9.8L12 21.4l7.8-4.5V7.1L12 2.6Z"
-                stroke="rgba(15,17,21,0.8)" stroke-width="1.4" stroke-linejoin="round"/>
-              <path d="M10 14.5V9.8l4-2.3v4.7l-4 2.3Z"
-                fill="rgba(15,17,21,0.18)"/>
-            </svg>
+            
             <div class="heroText">
               <h1 class="heroTitle">Sale Agent Product</h1>
               <p class="heroSub">
@@ -439,10 +427,7 @@
       <div class="page">
         <div class="hero">
           <div class="heroLeft">
-            <svg class="logoMark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2.6 4.2 7.1v9.8L12 21.4l7.8-4.5V7.1L12 2.6Z"
-                stroke="rgba(15,17,21,0.8)" stroke-width="1.4" stroke-linejoin="round"/>
-            </svg>
+            
             <div class="heroText">
               <h1 class="heroTitle">Agent Value Proposition</h1>
               <p class="heroSub">
@@ -456,9 +441,7 @@
 
           <button class="heroArrow" type="button" data-action="next" aria-label="Next">
             <svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 12h10.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-              <path d="M13.2 7.3 20 12l-6.8 4.7" stroke="currentColor"
-                stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+
             </svg>
           </button>
         </div>
@@ -469,10 +452,7 @@
       <div class="page">
         <div class="hero">
           <div class="heroLeft">
-            <svg class="logoMark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2.6 4.2 7.1v9.8L12 21.4l7.8-4.5V7.1L12 2.6Z"
-                stroke="rgba(15,17,21,0.8)" stroke-width="1.4" stroke-linejoin="round"/>
-            </svg>
+            
             <div class="heroText">
               <h1 class="heroTitle">YOUR AI Agent</h1>
               <p class="heroSub">
