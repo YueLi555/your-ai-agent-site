@@ -111,10 +111,6 @@
             <a href="index.html" class="hover:text-brand-text transition-colors duration-300 py-2">Home</a>
         </nav>
         
-        <button class="md:hidden flex items-center gap-2 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text py-2">
-            <span class="w-1 h-[1px] bg-brand-text"></span>
-            MENU
-        </button>
 
         <a href="https://apps.apple.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[8px] md:text-[9px] font-mono tracking-[0.22em] md:tracking-[0.3em] uppercase font-medium border-b border-brand-text pb-1 hover:text-brand-muted hover:border-brand-muted transition-colors duration-300 max-w-[150px] md:max-w-none text-right md:text-left leading-tight shrink-0">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -353,7 +349,7 @@
         observer.observe(archSection);
 
         window.addEventListener('scroll', () => {
-            // 
+            // 移动端也保留毛玻璃效果，但 padding 调整更加精细
             if (window.scrollY > 40) {
                 header.classList.add('bg-brand-bg/90', 'backdrop-blur-md', 'border-brand-border');
                 header.classList.remove('border-transparent');
@@ -371,7 +367,7 @@
             }
         });
 
-        // Touch  (touchstart/touchend)
+        // Touch 支持：确保长按在手机端也生效 (touchstart/touchend)
         const btnDeploy = document.getElementById('btn-deploy');
         const btnProgress = document.getElementById('deploy-progress');
         const btnText = document.getElementById('btn-deploy-text');
@@ -397,7 +393,7 @@
                 btnText.innerText = "[ GRANTED ]";
                 btnProgress.style.backgroundColor = "var(--tw-colors-brand-bg)";
                 
-                // 
+                // 移动端触发振动反馈
                 if (navigator.vibrate) navigator.vibrate(50);
                 
                 setTimeout(() => document.body.classList.remove('auth-shake'), 400);
