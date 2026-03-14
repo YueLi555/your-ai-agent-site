@@ -349,7 +349,7 @@
         observer.observe(archSection);
 
         window.addEventListener('scroll', () => {
-            // 移动端也保留毛玻璃效果，但 padding 调整更加精细
+            // 
             if (window.scrollY > 40) {
                 header.classList.add('bg-brand-bg/90', 'backdrop-blur-md', 'border-brand-border');
                 header.classList.remove('border-transparent');
@@ -367,7 +367,7 @@
             }
         });
 
-        // Touch 支持：确保长按在手机端也生效 (touchstart/touchend)
+        // Touch (touchstart/touchend)
         const btnDeploy = document.getElementById('btn-deploy');
         const btnProgress = document.getElementById('deploy-progress');
         const btnText = document.getElementById('btn-deploy-text');
@@ -381,7 +381,7 @@
         };
 
         const startPress = (e) => {
-            // 防止移动端长按弹出菜单
+            // 
             if(e.type === 'touchstart') e.preventDefault(); 
             
             btnProgress.style.transition = "width 0.6s linear";
@@ -393,7 +393,7 @@
                 btnText.innerText = "[ GRANTED ]";
                 btnProgress.style.backgroundColor = "var(--tw-colors-brand-bg)";
                 
-                // 移动端触发振动反馈
+                // 
                 if (navigator.vibrate) navigator.vibrate(50);
                 
                 setTimeout(() => document.body.classList.remove('auth-shake'), 400);
@@ -431,7 +431,7 @@
 
         const anomalyGrid = document.getElementById('anomaly-grid');
         function triggerAnomaly() {
-            // 只有网格存在（可见）时才触发
+            // 
             if(!anomalyGrid) return;
             const randomDelay = Math.floor(Math.random() * (15000 - 5000) + 5000); 
             setTimeout(() => {
