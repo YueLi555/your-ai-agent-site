@@ -1,562 +1,471 @@
-<!-- /Users/yueli/Desktop/your-ai-agent/docs/index.html -->
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<!DOCTYPE html>
+<html lang="en" class="snap-y snap-proximity scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: 'var(--brand-bg, #F8F6F2)',       
+                            text: '#141413',
+                            muted: '#827D75',
+                            border: 'var(--brand-border, #DBD8D0)', 
+                            surface: '#FFFFFF',  
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    transitionTimingFunction: {
+                        'system': 'cubic-bezier(0.19, 1, 0.22, 1)', 
+                    },
+                    keyframes: {
+                        'laser-sweep': {
+                            '0%': { clipPath: 'inset(0 100% 0 0)' },
+                            '100%': { clipPath: 'inset(0 0 0 0)' },
+                        },
+                        'phantom': {
+                            '0%, 80%, 100%': { opacity: '1' },
+                            '85%': { opacity: '0.2' },
+                            '90%': { opacity: '0.8' },
+                        }
+                    },
+                    animation: {
+                        'laser-sweep': 'laser-sweep 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+                        'phantom': 'phantom 6s infinite',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-      :root{
-        --bg:#fff;
-        --text:#0f1115;
-        --muted: rgba(15,17,21,.38);
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+        
+        .shifted-env {
+            --brand-bg: #F4F2EE;
+            --brand-border: #D1CEC6;
+        }
+        .snap-section { scroll-snap-align: start; scroll-margin-top: 4rem; }
 
-        --radius: 26px;
-
-        --shadow-card: 0 22px 70px rgba(0,0,0,.10);
-        --shadow-plate: 0 18px 60px rgba(0,0,0,.08);
-        --shadow-plate2: 0 12px 40px rgba(0,0,0,.06);
-
-        --safe-top: env(safe-area-inset-top, 0px);
-        --safe-bottom: env(safe-area-inset-bottom, 0px);
-        --safe-left: env(safe-area-inset-left, 0px);
-        --safe-right: env(safe-area-inset-right, 0px);
-      }
-
-      *{ box-sizing:border-box; }
-      html,body{ height:100%; }
-
-      body{
-        margin:0;
-        background: var(--bg);
-        color: var(--text);
-        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
-          sans-serif;
-        overflow: hidden; /* desktop */
-      }
-
-      *::-webkit-scrollbar{ width:0; height:0; }
-      *{ scrollbar-width:none; }
-
-      .nav{
-        position: fixed;
-        top: calc(16px + var(--safe-top));
-        left: calc(16px + var(--safe-left));
-        right: calc(16px + var(--safe-right));
-        display:flex;
-        justify-content:flex-end;
-        gap:24px;
-        align-items:center;
-        font-size:14px;
-        letter-spacing:.02em;
-        color: rgba(15,17,21,.45);
-        user-select:none;
-        z-index: 10;
-        pointer-events:auto;
-      }
-      .nav a{
-        color:inherit;
-        text-decoration:none;
-        transition:opacity 160ms ease;
-      }
-      .nav a:hover{ opacity:.75; }
-
-      .stage{
-        min-height: 100dvh;
-        display:grid;
-        place-items:center;
-        padding:
-          calc(72px + var(--safe-top))
-          calc(24px + var(--safe-right))
-          calc(110px + var(--safe-bottom))
-          calc(24px + var(--safe-left));
-      }
-
-      .stack{
-        position:relative;
-        width:min(980px,92vw);
-        height:380px; /* desktop */
-      }
-
-      .plate{
-        position:absolute;
-        inset:0;
-        border-radius: var(--radius);
-        background: rgba(255,255,255,.98);
-      }
-
-      .plate.back2{
-        inset: 22px -26px -22px 26px;
-        opacity:.75;
-        box-shadow: var(--shadow-plate);
-        filter: blur(.1px);
-      }
-
-      .plate.back1{
-        inset: 10px -12px -10px 12px;
-        opacity:.85;
-        box-shadow: var(--shadow-plate2);
-        filter: blur(.1px);
-      }
-
-      .plate.main{
-        inset:0;
-        background:#fff;
-        box-shadow: var(--shadow-card);
-        overflow:hidden;
-      }
-
-      .flipWrap{ position:absolute; inset:0; perspective: 1200px; }
-      .flip{
-        position:absolute; inset:0;
-        transform-style: preserve-3d;
-        transition: transform 520ms cubic-bezier(.2,.8,.2,1);
-      }
-      .flip.is-flipped{ transform: rotateX(180deg); }
-      .face{
-        position:absolute; inset:0;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-      }
-      .face.b{ transform: rotateX(180deg); }
-
-      .page{
-        position:absolute;
-        inset:0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        padding:48px 56px;
-      }
-
-      .hero{
-        width:100%;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:28px;
-      }
-
-      .heroLeft{
-        display:flex;
-        align-items:center;
-        min-width:0;
-        flex:1 1 auto;
-      }
-
-
-      .heroTitle{
-        font-family: "Manrope", system-ui, sans-serif;
-        font-weight: 650;
-        letter-spacing: -0.03em;
-        margin: 0;
-        font-size: clamp(30px, 3.8vw, 48px);
-        line-height: 1.04;
-      }
-
-      .heroText{
-        display:flex;
-        flex-direction:column;
-        gap:14px;
-        min-width:0;
-      }
-
-      .heroKicker{
-        margin:0;
-        font-size:12px;
-        letter-spacing:.22em;
-        color: rgba(15,17,21,.38);
-        text-transform: uppercase;
-      }
-
-      .heroSub{
-        margin:0;
-        max-width: 640px;
-        font-size:16px;
-        line-height:1.7;
-        letter-spacing:.01em;
-        color: rgba(15,17,21,.56);
-      }
-
-      .heroArrow{
-        width:auto;
-        height:auto;
-        padding:0;
-        border:0;
-        border-radius:0;
-        background:transparent;
-        box-shadow:none;
-        backdrop-filter:none;
-        -webkit-backdrop-filter:none;
-
-        cursor:pointer;
-        display:grid;
-        place-items:center;
-
-        transition: transform 160ms ease, opacity 160ms ease;
-        opacity:.9;
-        align-self:center;
-        flex: 0 0 auto;
-      }
-
-      .heroArrow:hover{
-        transform: translateX(3px);
-        opacity:1;
-      }
-
-      .heroArrow:active{
-        transform: translateX(2px);
-      }
-
-      .heroArrow:focus-visible{
-        outline: 2px solid rgba(15,17,21,.18);
-        outline-offset: 3px;
-      }
-
-      .arrowIcon{
-        width:46px;
-        height:46px;
-        color: rgba(15,17,21,.32);
-        transition: color 160ms ease;
-      }
-
-      .heroArrow:hover .arrowIcon{
-        color: rgba(15,17,21,.58);
-      }
-
-      .dots{
-        position:absolute;
-        left:0; right:0;
-        bottom:22px;
-        display:none;
-        justify-content:center;
-        gap:8px;
-        pointer-events:none;
-      }
-      .dot{
-        width:6px; height:6px;
-        border-radius:999px;
-        background: rgba(15,17,21,.18);
-        opacity:.45;
-        transform: scale(1);
-        transition: opacity 160ms ease, transform 160ms ease;
-      }
-      .dot.is-active{ opacity:.9; transform: scale(1.25); }
-
-      .status{
-        position: fixed;
-        left: calc(16px + var(--safe-left));
-        right: calc(16px + var(--safe-right));
-        bottom: calc(14px + var(--safe-bottom));
-        display:flex;
-        justify-content:center;
-        flex-wrap:wrap;
-        gap:10px;
-        align-items:center;
-        font-size:12px;
-        letter-spacing:.14em;
-        color: rgba(15,17,21,.34);
-        user-select:none;
-        z-index: 10;
-        pointer-events:auto;
-      }
-
-      .status__copy{ white-space:nowrap; }
-      .status__sep{ opacity:.65; }
-
-      .status__link{
-        text-decoration:none;
-        padding: .28rem .72rem;
-        border-radius: 999px;
-        border:0;
-        color: inherit;
-
-        background: rgba(15,17,21,.04);
-        box-shadow: 0 12px 28px rgba(0,0,0,.06);
-        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, opacity 140ms ease;
-        opacity:.92;
-      }
-
-      .status__link:hover{
-        transform: translateY(-1px);
-        background: rgba(15,17,21,.06);
-        box-shadow: 0 16px 36px rgba(0,0,0,.08);
-        opacity:1;
-      }
-
-      .status__link:active{ transform: translateY(0); }
-
-      .status__link:focus-visible{
-        outline: 2px solid rgba(15,17,21,.18);
-        outline-offset: 2px;
-      }
-
-      @media (prefers-reduced-motion: reduce){
-        .flip, .heroArrow { transition:none; }
-      }
-
-      /* ✅ Mobile fix */
-      @media (max-width:720px){
-        body{ overflow:auto; } /* allow scroll on mobile */
-        .stage{
-          place-items: start center;
-          padding:
-            calc(66px + var(--safe-top))
-            calc(16px + var(--safe-right))
-            calc(118px + var(--safe-bottom))
-            calc(16px + var(--safe-left));
+        .u-line-b { border-bottom: 0.5px solid var(--brand-border); transition: border-color 0.4s ease; }
+        .u-line-t { border-top: 0.5px solid var(--brand-border); transition: border-color 0.4s ease; }
+        .u-line-l { border-left: 0.5px solid var(--brand-border); transition: border-color 0.4s ease; }
+        .u-line-r { border-right: 0.5px solid var(--brand-border); transition: border-color 0.4s ease; }
+        
+        .u-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(219, 216, 208, 0.4) 0.5px, transparent 0.5px),
+                linear-gradient(to bottom, rgba(219, 216, 208, 0.4) 0.5px, transparent 0.5px);
+            background-size: 16px 16px;
         }
 
-        .stack{
-          width: min(980px, 94vw);
-          height: auto;
-          min-height: 420px;
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        .laser-mask {
+            clip-path: inset(0 100% 0 0);
+            position: relative;
         }
-
-        :root{ --radius: 22px; }
-
-        .plate.back2{ inset: 16px -18px -16px 18px; }
-        .plate.back1{ inset: 8px -10px -8px 10px; }
-
-        .page{
-          position: relative;
-          padding: 22px 18px 18px;
-          height: 100%;
+        .laser-mask::after {
+            content: ''; position: absolute; top: 0; right: 0; height: 100%; width: 1px;
+            background-color: #141413;
+            animation: hide-laser 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         }
+        @keyframes hide-laser { 99% { opacity: 1; } 100% { opacity: 0; } }
 
-        .hero{
-          flex-direction: column;
-          align-items: stretch;
-          justify-content: flex-start;
-          gap: 16px;
-        }
-
-        .heroLeft{
-          align-items: flex-start;
-        }
-
-
-        .heroSub{
-          max-width: 100%;
-          font-size: 14px;
-          line-height: 1.65;
-        }
-
-        .heroArrow{
-          align-self: flex-end;
-        }
-        .arrowIcon{ width:44px; height:44px; }
-
-        .status{
-          justify-content:center;
-          font-size:11px;
-          letter-spacing:.12em;
-        }
-        .status__copy{ white-space: normal; text-align:center; }
-      }
-
-      @media (max-width:360px){
-        .nav{ gap: 16px; font-size: 13px; }
-        .page{ padding: 18px 14px 14px; }
-        .heroTitle{ font-size: 26px; }
-      }
+        .auth-shake { animation: auth-shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes auth-shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-2px, 0, 0); } 40%, 60% { transform: translate3d(2px, 0, 0); } }
     </style>
-  </head>
+</head>
+<body id="sys-body" class="bg-brand-bg text-brand-text font-sans selection:bg-brand-text selection:text-brand-bg overflow-x-hidden flex flex-col min-h-screen">
 
-  <body>
-    <nav class="nav" aria-label="Top Navigation">
-      <a href="about.html">About</a>
-      <a href="#help">Help</a>
-      <a href="#go">GO</a>
-    </nav>
+    <header id="sys-header" class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-5 md:py-6 flex justify-between items-center transition-all duration-500 border-b border-transparent bg-brand-bg/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
+        
+        <div class="flex items-center gap-6 md:gap-10">
+            <div class="flex items-center gap-3 group cursor-pointer">
 
-    <main class="stage">
-      <section class="stack" aria-label="Hero Card Stack">
-        <div class="plate back2" aria-hidden="true"></div>
-        <div class="plate back1" aria-hidden="true"></div>
-
-        <div class="plate main" aria-label="Main Card">
-          <div class="flipWrap">
-            <div class="flip" id="flip" aria-live="polite">
-              <div class="face a" id="faceA"></div>
-              <div class="face b" id="faceB"></div>
+                <div class="flex items-baseline gap-1" id="sys-logo-text">
+                    <span class="font-serif italic font-medium text-xl leading-none tracking-wide text-brand-text transition-all duration-700">U</span>
+                    
+                    <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-brand-text font-medium ml-1">Agentic AI System</span>
+                </div>
             </div>
-          </div>
 
-          <div class="dots" id="dots" aria-hidden="true"></div>
         </div>
-      </section>
+
+        <nav id="sys-nav" class="hidden md:flex items-center gap-16 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted transition-all duration-700">
+            <a href="index.html" class="hover:text-brand-text transition-colors duration-300 py-2">Home</a>
+        </nav>
+        
+        <button class="md:hidden flex items-center gap-2 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text py-2">
+            <span class="w-1 h-[1px] bg-brand-text"></span>
+            MENU
+        </button>
+
+        <a href="https://apps.apple.com/" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center gap-2 text-[9px] font-mono tracking-[0.3em] uppercase font-medium border-b border-brand-text pb-1 hover:text-brand-muted hover:border-brand-muted transition-colors duration-300">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M16.365 12.45c.03 3.24 2.84 4.32 2.87 4.335-.024.076-.45 1.548-1.482 3.066-.891 1.311-1.815 2.619-3.273 2.646-1.431.027-1.89-.849-3.528-.849-1.638 0-2.148.822-3.501.876-1.404.054-2.475-1.404-3.375-2.709-1.839-2.658-3.243-7.512-1.359-10.782.936-1.623 2.61-2.646 4.428-2.673 1.377-.027 2.676.93 3.528.93.852 0 2.451-1.149 4.131-.981.702.03 2.673.282 3.939 2.133-.102.063-2.352 1.368-2.378 4.008ZM13.617 4.476c.747-.903 1.251-2.16 1.113-3.408-1.08.042-2.385.72-3.159 1.623-.693.801-1.299 2.085-1.137 3.309 1.206.093 2.436-.615 3.183-1.524Z"/>
+            </svg>
+            <span>Download on the App Store</span>
+        </a>
+    </header>
+
+    <main id="section-hero" class="snap-section w-full px-6 md:px-12 pt-32 md:pt-40 pb-20 md:pb-32 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 relative flex-1">
+        
+        <div class="md:col-span-8 relative z-10 flex flex-col justify-center">
+            
+            <div class="laser-mask animate-laser-sweep flex items-center gap-4 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-8 md:mb-10 ml-1" style="animation-delay: 50ms;">
+              
+                REVENUE INTELLIGENCE
+            </div>
+
+            <h1 class="font-serif leading-[1.05] text-brand-text mb-10 md:mb-14">
+                <span class="block text-5xl sm:text-7xl md:text-[8.5rem] tracking-[-0.03em] font-medium -ml-1 laser-mask animate-laser-sweep" style="animation-delay: 150ms;">Revenue</span>
+                <span class="block text-4xl sm:text-6xl md:text-[7rem] italic text-brand-muted ml-6 sm:ml-16 md:ml-32 mt-2 md:mt-4 font-light tracking-tight laser-mask animate-laser-sweep" style="animation-delay: 300ms;">orchestration.</span>
+            </h1>
+            
+            <div class="ml-1 md:ml-32 flex flex-col items-start gap-10 md:gap-14">
+                <p class="font-sans text-brand-muted max-w-[340px] text-[12px] md:text-[13px] leading-[1.8] md:leading-[2] font-light tracking-wide laser-mask animate-laser-sweep" style="animation-delay: 450ms;">
+                    AI sales infrastructure for qualification, follow-up, and conversion. <br class="hidden sm:block">
+                    Human-approved execution across chat, pipeline context, and Gmail.
+                </p>
+                
+                <div class="w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-6 md:gap-10 laser-mask animate-laser-sweep" style="animation-delay: 600ms;">
+                    
+                    <button id="btn-deploy" class="group relative bg-brand-text text-brand-bg w-full sm:w-auto px-8 md:px-10 py-5 md:py-4 text-[9px] font-mono tracking-[0.35em] uppercase flex items-center justify-center sm:justify-start gap-4 select-none cursor-pointer">
+                        <span class="w-1 h-1 bg-brand-bg opacity-40 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        <span id="btn-deploy-text">Activate Growth Engine</span>
+                        <div id="deploy-progress" class="absolute bottom-0 left-0 h-[2px] bg-brand-muted w-0"></div>
+                    </button>
+
+                    <a href="#section-architecture" class="group flex items-center justify-center sm:justify-start gap-3 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text hover:text-brand-muted transition-colors duration-300 py-4 sm:py-0">
+                        View Capabilities 
+                        <span class="block w-4 h-[0.5px] bg-brand-text group-hover:bg-brand-muted group-hover:w-10 transition-all duration-500 ease-system"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="anomaly-grid" class="flex md:col-span-4 relative border-t md:border-t-0 md:border-l border-brand-border flex-col justify-between pt-8 pb-4 md:p-6 u-grid-pattern group laser-mask animate-laser-sweep mt-4 md:mt-0" style="animation-delay: 750ms;">
+            <div class="hidden md:block absolute top-0 left-0 w-3 h-[1px] bg-brand-text"></div>
+            <div class="hidden md:block absolute bottom-0 left-0 w-3 h-[1px] bg-brand-text"></div>
+            <div class="hidden md:block absolute top-0 right-0 w-[1px] h-3 bg-brand-text"></div>
+            
+            <div class="w-full flex justify-between items-center text-[8px] font-mono tracking-[0.3em] text-brand-text uppercase relative z-10 pointer-events-none mb-10 md:mb-0">
+                <span>U_TELEMETRY</span>
+                <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#141413] rounded-full animate-phantom"></span>
+                    SYS ACTIVE
+                </div>
+            </div>
+            
+            <div class="text-[9px] font-mono tracking-[0.2em] text-brand-text leading-[2.2] uppercase relative z-10 pointer-events-none">
+                GTM_CORE // V.2.0.4<br>
+                RESPONSE TIME // <span id="latency-val" class="text-brand-muted transition-colors duration-300">12MS</span><br>
+                EXECUTION READY // <span class="text-brand-muted">98.4%</span><br>
+                <div class="mt-4 mb-2 w-full h-[0.5px] bg-brand-text/20"></div>
+                PIPELINE SIGNALS ACTIVE.
+            </div>
+        </div>
     </main>
 
-    <div class="status" role="contentinfo" aria-label="Site footer">
-      <span class="status__copy">© <span id="year"></span> YOUR AI Agent. All rights reserved.</span>
-      <span class="status__sep" aria-hidden="true">•</span>
-      <a class="status__link" href="/terms" rel="nofollow">Terms</a>
-      <a class="status__link" href="/privacy" rel="nofollow">Privacy</a>
-    </div>
-
-    <template data-page>
-      <div class="page">
-        <div class="hero">
-          <div class="heroLeft">
-            
-            <div class="heroText">
-              <h1 class="heroTitle">Sale Agent Product</h1>
-              <p class="heroSub">
-                A sales AI agent built for Product-Led Growth (PLG).
-                From the very first user interaction, it automatically identifies customer needs,
-                matches the right solutions, drives conversion, and manages follow-up — turning every interaction
-                into an executable sales action, while continuously learning and improving through real-world usage.
-              </p>
+    <section class="snap-section w-full px-6 md:px-12 py-8 u-line-t u-line-b bg-brand-bg laser-mask animate-laser-sweep" style="animation-delay: 850ms;">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8">
+            <h3 class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text flex items-center gap-3">
+             
+                U . NET
+            </h3>
+            <div class="flex flex-wrap gap-x-10 md:gap-x-16 gap-y-6 opacity-50 grayscale mix-blend-multiply items-center md:justify-end">
+                <div class="font-serif italic text-base md:text-lg">RevenueOps</div>
+                <div class="font-sans font-medium text-[9px] md:text-[10px] tracking-[0.25em] uppercase">DealFlow</div>
+                <div class="font-mono text-[9px] md:text-[10px] tracking-widest uppercase">GTM Stack</div>
+                <div class="font-sans font-bold text-xs md:text-sm tracking-tighter">SignalCloud</div>
             </div>
-          </div>
-
-          <button class="heroArrow" type="button" data-action="next" aria-label="Next">
-            <svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 12h10.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-              <path d="M13.2 7.3 20 12l-6.8 4.7" stroke="currentColor"
-                stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
         </div>
-      </div>
-    </template>
+    </section>
 
-    <template data-page>
-      <div class="page">
-        <div class="hero">
-          <div class="heroLeft">
-            
-            <div class="heroText">
-              <h1 class="heroTitle">Agent Value Proposition</h1>
-              <p class="heroSub">
-                Increase conversion rates while reducing manual sales effort.
-                Shorten sales cycles and amplify overall sales efficiency.
-                Continuously reuse what works — proven strategies, workflows, and decisions —
-                and evolve with every user interaction.
-              </p>
+    <section id="section-architecture" class="snap-section w-full px-6 md:px-12 py-20 md:py-32">
+        <div class="mb-12 md:mb-20 flex justify-between items-end">
+            <h2 class="font-serif text-4xl md:text-[3.5rem] text-brand-text tracking-tight leading-none laser-mask animate-laser-sweep" style="animation-delay: 100ms;">Commercial System.</h2>
+            <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted hidden md:block">
+                SCHEMA OVERVIEW
             </div>
-          </div>
-
-          <button class="heroArrow" type="button" data-action="next" aria-label="Next">
-            <svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-
-            </svg>
-          </button>
         </div>
-      </div>
-    </template>
 
-    <template data-page>
-      <div class="page">
-        <div class="hero">
-          <div class="heroLeft">
+        <div class="grid grid-cols-1 md:grid-cols-12 border border-brand-border shadow-[0_20px_40px_-15px_rgba(20,20,19,0.05)] group/board">
             
-            <div class="heroText">
-              <h1 class="heroTitle">YOUR AI Agent</h1>
-              <p class="heroSub">
-                Build, deploy, and iterate AI agents with a clean, minimal interface.
-              </p>
+            <div class="md:col-span-7 bg-brand-text text-brand-bg p-8 md:p-16 min-h-[400px] md:min-h-[600px] flex flex-col justify-between border-b md:border-b-0 md:border-r border-brand-border relative overflow-hidden group/card transition-all duration-700 ease-system hover:bg-[#0a0a0a] group-hover/board:opacity-[0.4] hover:!opacity-100" data-log="EXPONENTIAL_SCALE">
+                
+                <div class="flex justify-between items-start font-mono text-[9px] tracking-[0.3em] uppercase text-brand-bg/50 group-hover/card:text-brand-bg/90 transition-colors duration-500">
+                    <span class="flex items-center gap-2"><span class="w-1 h-1 bg-brand-bg opacity-50 group-hover/card:opacity-100 transition-opacity"></span> [ U_PROT . 01 ]</span>
+                    <span class="hidden sm:inline-block">// EXPONENTIAL</span>
+                </div>
+                
+                <div class="relative z-10 mt-16 md:mt-0">
+                    <div class="font-sans font-light text-6xl md:text-8xl tracking-tighter mb-6 md:mb-8 text-brand-bg/90 group-hover/card:text-white transition-colors duration-500 flex items-baseline gap-2">
+                        +300<span class="text-2xl md:text-3xl font-serif italic text-brand-bg/50 group-hover/card:text-brand-bg/80">%.</span>
+                    </div>
+                    <h3 class="font-serif text-2xl md:text-3xl mb-4">Pipeline Acceleration.</h3>
+                    <p class="text-brand-bg/50 group-hover/card:text-brand-bg/80 transition-colors duration-500 font-sans font-light text-[12px] max-w-sm leading-[2] tracking-wide">
+                        Qualify leads, extract commercial intent, and drive next-step execution without increasing headcount.
+                    </p>
+                </div>
             </div>
-          </div>
 
-          <button class="heroArrow" type="button" data-action="next" aria-label="Next">
-            <svg class="arrowIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 12h10.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-              <path d="M13.2 7.3 20 12l-6.8 4.7" stroke="currentColor"
-                stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+            <div class="md:col-span-5 flex flex-col">
+                
+                <div class="p-8 md:p-12 flex-none flex flex-col justify-between border-b border-brand-border bg-brand-bg relative group/card cursor-default transition-all duration-700 ease-system group-hover/board:opacity-[0.4] hover:!opacity-100" data-log="ROUTING_PATHWAYS">
+                    
+                    <div class="absolute left-[-1px] top-0 w-[1.5px] h-full bg-transparent group-hover/card:bg-brand-text transition-colors duration-150 delay-0 hidden md:block"></div>
+
+                    <div class="flex justify-between items-start font-mono text-[9px] tracking-[0.3em] uppercase text-brand-muted group-hover/card:text-brand-text/70 transition-colors duration-500 delay-[50ms] mb-12 md:mb-8">
+
+                        <span>ROUTING</span>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-serif text-2xl mb-6 text-brand-text/80 group-hover/card:text-brand-text transition-colors duration-500 delay-[80ms]">Opportunity Routing.</h3>
+                        
+                        <div class="flex flex-col font-mono text-[9px] tracking-[0.15em] text-brand-text uppercase border-t border-brand-border/40">
+                            <div class="flex justify-between items-center py-3 border-b border-brand-border/40 relative">
+                                <div class="absolute left-0 bottom-0 h-[1px] bg-brand-text w-0 group-hover/card:w-8 transition-all duration-500 ease-system delay-[120ms]"></div>
+                                <span class="text-brand-muted group-hover/card:text-brand-text transition-colors duration-500 delay-[120ms]">HOT LEAD</span> 
+                                <span class="flex items-center gap-2">PRIORITIZED <span class="w-1 h-1 bg-brand-text"></span></span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-brand-border/40">
+                                <span class="text-brand-muted">FOLLOW UP</span> 
+                                <span class="opacity-60 group-hover/card:opacity-100 transition-opacity duration-500 delay-[160ms] font-bold">READY NOW</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 md:mt-4">
+                            <button onclick="toggleDecrypt('log-routing')" class="text-[8px] font-mono tracking-[0.2em] text-brand-muted hover:text-brand-text transition-colors py-2">
+                                [+] DECRYPT DATA
+                            </button>
+                            <div id="log-routing" class="overflow-hidden max-h-0 transition-all duration-700 ease-system opacity-50">
+                                <div class="pt-4 text-[8px] font-mono text-brand-text leading-tight uppercase">
+                                    > SIGNAL REVIEW COMPLETE... <br>
+                                    > BUYER INTENT: VERIFIED <br>
+                                    > NEXT ACTION: FOLLOW-UP EMAIL <br>
+                                    > ROUTE LOCKED FOR EXECUTION.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 md:p-16 flex-1 flex flex-col justify-between relative group/card transition-all duration-700 ease-system bg-brand-surface group-hover/board:opacity-[0.4] hover:!opacity-100" data-log="ADAPTIVE_MEMORY">
+                    
+                    <div class="absolute left-[-1px] top-0 w-[1.5px] h-full bg-transparent group-hover/card:bg-brand-text transition-colors duration-150 delay-0 hidden md:block"></div>
+
+                    <div class="flex justify-between items-start font-mono text-[9px] tracking-[0.3em] uppercase text-brand-muted group-hover/card:text-brand-text/70 transition-colors duration-500 delay-[50ms]">
+
+                        <span>MEMORY</span>
+                    </div>
+                    
+                    <div class="mt-16 md:mt-auto pt-10">
+                        <div class="text-[9px] font-mono tracking-[0.3em] text-brand-text/40 group-hover/card:text-brand-text/70 transition-colors duration-500 delay-[80ms] mb-4 uppercase">[ COMMERCIAL_MEMORY ]</div>
+                        <h3 class="font-serif text-3xl md:text-4xl mb-8 text-brand-text/90 group-hover/card:text-brand-text transition-colors duration-500 delay-[100ms]">Institutional Recall.</h3>
+                        
+                        <a href="#" class="inline-flex items-center gap-3 text-[9px] font-mono tracking-[0.3em] uppercase font-medium text-brand-text transition-colors duration-300 py-2">
+                            Inspect Memory 
+                            <span class="w-4 h-[1px] bg-brand-text group-hover/card:w-16 transition-all duration-500 ease-system delay-[150ms]"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
-    </template>
+    </section>
+
+    <footer class="w-full px-6 md:px-12 py-10 u-line-t mt-auto bg-brand-bg transition-colors duration-400 relative z-10">
+        <div class="flex flex-col md:grid md:grid-cols-12 gap-8 items-start md:items-end text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted">
+            <div class="md:col-span-3 flex items-center gap-3 text-brand-text">
+               
+                U Agentic AI System
+            </div>
+            
+            <div class="md:col-span-4 flex items-center text-left">
+                &copy; 2026 U AI Agent. <br class="md:hidden">ALL Rights RESERVED.
+            </div>
+            
+            <div class="md:col-span-5 flex flex-col md:flex-row justify-start md:justify-end items-start md:items-center gap-6 mt-4 md:mt-0 w-full">
+                
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:border-r border-brand-border/50 md:pr-6 md:mr-2 w-full md:w-auto">
+                    <a href="terms.html" class="hover:text-brand-text transition-colors duration-300 py-2 md:py-0 block">Terms of Service</a>
+                    <span class="hidden md:inline text-brand-border">|</span>
+                    <a href="privacy.html" class="hover:text-brand-text transition-colors duration-300 py-2 md:py-0 block">Privacy Policy</a>
+                </div>
+            
+            </div>
+        </div>
+    </footer>
+
+    <a href="mailto:calliopes@uagent.app?subject=Feedback%20for%20U%20AI%20Agent&body=Hi%20U%20AI%20Agent%20team%2C%0A%0AI%E2%80%99d%20like%20to%20share%20some%20feedback%3A%0A%0AName%3A%20%0AEmail%3A%20%0ACompany%3A%20%0A%0AMessage%3A%20%0A%0A" class="fixed bottom-0 right-4 md:right-12 z-50 flex items-center gap-2 md:gap-3 bg-brand-bg/95 backdrop-blur-md border-l border-t border-r border-brand-border px-4 md:px-5 py-3 md:py-3 text-[8px] md:text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text hover:bg-brand-text hover:text-brand-bg transition-all duration-500 group translate-y-[1px] hover:translate-y-0">
+
+        <span class="hidden sm:inline">FEEDBACK</span>
+        <span class="sm:hidden">FEEDBACK</span>
+    </a>
 
     <script>
-      (function () {
-        const flip = document.getElementById("flip");
-        const faceA = document.getElementById("faceA");
-        const faceB = document.getElementById("faceB");
-        const dots = document.getElementById("dots");
+        const header = document.getElementById('sys-header');
+        const nav = document.getElementById('sys-nav');
+        const logoText = document.getElementById('sys-logo-text');
+        const body = document.getElementById('sys-body');
+        const globalStateText = document.getElementById('global-state-text');
+        const globalStateBox = document.getElementById('global-state-box');
+        const globalStateIndicator = document.getElementById('global-state-indicator');
 
-        const templates = Array.from(document.querySelectorAll("template[data-page]"));
-        const pages = templates.map((t) => t.innerHTML.trim()).filter(Boolean);
+        const archSection = document.getElementById('section-architecture');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    body.classList.add('shifted-env');
+                    globalStateText.innerText = "[ U_ARCH . SCHEMA ]";
+                    
+                    globalStateBox.classList.add('bg-brand-text');
+                    globalStateIndicator.classList.add('text-brand-text');
+                    setTimeout(() => {
+                        globalStateIndicator.classList.remove('text-brand-text');
+                        globalStateBox.classList.remove('bg-brand-text');
+                    }, 100);
+                } else {
+                    body.classList.remove('shifted-env');
+                    globalStateText.innerText = "[ U_INIT . 00 ]";
+                }
+            });
+        }, { threshold: 0.2 });
+        observer.observe(archSection);
 
-        let currentIndex = 0;
-        let showingA = true;
-        let isAnimating = false;
-
-        function mod(n, m) { return ((n % m) + m) % m; }
-
-        function renderDots(activeIndex) {
-          if (!dots) return;
-          dots.innerHTML = "";
-          for (let i = 0; i < pages.length; i++) {
-            const d = document.createElement("div");
-            d.className = "dot" + (i === activeIndex ? " is-active" : "");
-            dots.appendChild(d);
-          }
-        }
-
-        function setFaceContent(faceEl, index) {
-          faceEl.innerHTML = pages[index];
-          faceEl.setAttribute("data-page-index", String(index));
-        }
-
-        function setActiveIndex(index) {
-          currentIndex = mod(index, pages.length);
-          renderDots(currentIndex);
-        }
-
-        function flipTo(targetIndex) {
-          if (isAnimating) return;
-          isAnimating = true;
-
-          const nextIndex = mod(targetIndex, pages.length);
-          const hiddenFace = showingA ? faceB : faceA;
-
-          setFaceContent(hiddenFace, nextIndex);
-          flip.classList.toggle("is-flipped", showingA);
-
-          const onEnd = (e) => {
-            if (e.propertyName !== "transform") return;
-            flip.removeEventListener("transitionend", onEnd);
-
-            showingA = !showingA;
-            setActiveIndex(nextIndex);
-            isAnimating = false;
-          };
-          flip.addEventListener("transitionend", onEnd);
-        }
-
-        function next() { flipTo(currentIndex + 1); }
-        function prev() { flipTo(currentIndex - 1); }
-
-        function init() {
-          setFaceContent(faceA, 0);
-          setFaceContent(faceB, 1);
-          setActiveIndex(0);
-          flip.classList.remove("is-flipped");
-          const yearEl = document.getElementById("year");
-          if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-        }
-
-        document.addEventListener("click", (e) => {
-          const btn = e.target.closest("[data-action]");
-          if (!btn) return;
-          const action = btn.getAttribute("data-action");
-          if (action === "next") next();
-          if (action === "prev") prev();
+        window.addEventListener('scroll', () => {
+            // 移动端也保留毛玻璃效果，但 padding 调整更加精细
+            if (window.scrollY > 40) {
+                header.classList.add('bg-brand-bg/90', 'backdrop-blur-md', 'border-brand-border');
+                header.classList.remove('border-transparent');
+                header.classList.replace('py-5', 'py-3'); // mobile
+                header.classList.replace('md:py-6', 'md:py-4'); // desktop
+                nav.classList.replace('tracking-[0.3em]', 'tracking-[0.25em]');
+                logoText.classList.add('scale-95', 'origin-left');
+            } else {
+                header.classList.remove('bg-brand-bg/90', 'backdrop-blur-md', 'border-brand-border');
+                header.classList.add('border-transparent');
+                header.classList.replace('py-3', 'py-5'); 
+                header.classList.replace('md:py-4', 'md:py-6');
+                nav.classList.replace('tracking-[0.25em]', 'tracking-[0.3em]');
+                logoText.classList.remove('scale-95', 'origin-left');
+            }
         });
 
-        window.addEventListener("keydown", (e) => {
-          if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
-          if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
-          if (e.key === "Escape") flipTo(0);
+        // Touch 支持：确保长按在手机端也生效 (touchstart/touchend)
+        const btnDeploy = document.getElementById('btn-deploy');
+        const btnProgress = document.getElementById('deploy-progress');
+        const btnText = document.getElementById('btn-deploy-text');
+        let pressTimer;
+
+        const resetPress = () => {
+            clearTimeout(pressTimer);
+            btnProgress.style.transition = "width 0.2s ease-out";
+            btnProgress.style.width = "0%";
+            btnText.innerText = "Activate Growth Engine";
+        };
+
+        const startPress = (e) => {
+            // 防止移动端长按弹出菜单
+            if(e.type === 'touchstart') e.preventDefault(); 
+            
+            btnProgress.style.transition = "width 0.6s linear";
+            btnProgress.style.width = "100%";
+            btnText.innerText = "Initializing Revenue Flow...";
+            
+            pressTimer = setTimeout(() => {
+                document.body.classList.add('auth-shake');
+                btnText.innerText = "[ GRANTED ]";
+                btnProgress.style.backgroundColor = "var(--tw-colors-brand-bg)";
+                
+                // 移动端触发振动反馈
+                if (navigator.vibrate) navigator.vibrate(50);
+                
+                setTimeout(() => document.body.classList.remove('auth-shake'), 400);
+            }, 600);
+        };
+
+        btnDeploy.addEventListener('mousedown', startPress);
+        btnDeploy.addEventListener('touchstart', startPress, {passive: false});
+        btnDeploy.addEventListener('mouseup', resetPress);
+        btnDeploy.addEventListener('touchend', resetPress);
+        btnDeploy.addEventListener('mouseleave', resetPress);
+
+        const stateLog = document.getElementById('state-log');
+        document.querySelectorAll('.group\\/card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const signal = this.getAttribute('data-log');
+                if (signal) {
+                    stateLog.innerText = `[ LAST_SIGNAL: ${signal} ]`;
+                    stateLog.classList.add('text-brand-text');
+                    setTimeout(() => stateLog.classList.remove('text-brand-text'), 200);
+                }
+            });
         });
 
-        init();
-      })();
+        window.toggleDecrypt = function(id) {
+            const el = document.getElementById(id);
+            if(el.style.maxHeight && el.style.maxHeight !== '0px') {
+                el.style.maxHeight = '0px';
+                event.target.innerText = '[+] DECRYPT_DATA';
+            } else {
+                el.style.maxHeight = '100px';
+                event.target.innerText = '[-] CLOSE_TRACE';
+            }
+        };
+
+        const anomalyGrid = document.getElementById('anomaly-grid');
+        function triggerAnomaly() {
+            // 只有网格存在（可见）时才触发
+            if(!anomalyGrid) return;
+            const randomDelay = Math.floor(Math.random() * (15000 - 5000) + 5000); 
+            setTimeout(() => {
+                const pixel = document.createElement('div');
+                pixel.style.position = 'absolute';
+                pixel.style.width = '2px';
+                pixel.style.height = '2px';
+                pixel.style.backgroundColor = '#141413';
+                pixel.style.left = Math.floor(Math.random() * 90) + 5 + '%';
+                pixel.style.top = Math.floor(Math.random() * 90) + 5 + '%';
+                
+                anomalyGrid.appendChild(pixel);
+                
+                setTimeout(() => { pixel.remove(); }, 150);
+                triggerAnomaly();
+            }, randomDelay);
+        }
+        triggerAnomaly();
+
+        const latencyVal = document.getElementById('latency-val');
+        setInterval(() => {
+            if(Math.random() > 0.7) {
+                const vals = ["11MS", "13MS", "12.4MS"];
+                latencyVal.innerText = vals[Math.floor(Math.random() * vals.length)];
+                latencyVal.classList.add('text-brand-text');
+                setTimeout(() => { 
+                    latencyVal.innerText = "12MS"; 
+                    latencyVal.classList.remove('text-brand-text');
+                }, 400);
+            }
+        }, 3500);
     </script>
-  </body>
+</body>
 </html>
