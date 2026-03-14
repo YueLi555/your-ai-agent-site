@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Terms of Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#F8F6F2',       
+                            text: '#141413',
+                            muted: '#827D75',
+                            border: '#DBD8D0', 
+                            surface: '#FFFFFF',  
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    transitionTimingFunction: {
+                        'system': 'cubic-bezier(0.19, 1, 0.22, 1)', 
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .u-line-b { border-bottom: 0.5px solid var(--tw-colors-brand-border); }
+        .u-line-t { border-top: 0.5px solid var(--tw-colors-brand-border); }
+        .u-line-l { border-left: 0.5px solid var(--tw-colors-brand-border); }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
+</head>
+<body id="sys-body" class="bg-brand-bg text-brand-text font-sans selection:bg-brand-text selection:text-brand-bg overflow-x-hidden flex flex-col min-h-screen">
+
+    <header id="sys-header" class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-5 md:py-6 flex justify-between items-center transition-all duration-500 border-b border-transparent bg-brand-bg/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
+        <div class="flex items-center gap-6 md:gap-10">
+            <a href="index.html" class="flex items-center gap-3 group cursor-pointer">
+
+                <div class="flex items-baseline gap-1" id="sys-logo-text">
+                    <span class="font-serif italic font-medium text-xl leading-none tracking-wide text-brand-text transition-all duration-700">U</span>
+                    <span class="font-mono text-[10px] text-brand-text font-bold opacity-60">Agentic AI</span>
+                    <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-brand-text font-medium ml-1">System</span>
+                </div>
+            </a>
+
+        </div>
+        <nav class="hidden md:flex items-center gap-16 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted transition-all duration-700">
+            <a href="index.html" class="hover:text-brand-text transition-colors duration-300 py-2">Home</a>
+        </nav>
+        <button class="md:hidden flex items-center gap-2 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text py-2">
+            <span class="w-1 h-[1px] bg-brand-text"></span> MENU
+        </button>
+    </header>
+
+    <section class="w-full px-6 md:px-12 pt-32 md:pt-48 pb-16 md:pb-24 u-line-b">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-12">
+            <div>
+                <div class="flex items-center gap-4 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-8 ml-1">
+                   
+                    PROTOCOL 01
+                </div>
+                <h1 class="font-serif leading-[1.05] text-brand-text">
+                    <span class="block text-5xl sm:text-7xl md:text-[6rem] tracking-tight font-medium -ml-1">Terms of</span>
+                    <span class="block text-4xl sm:text-6xl md:text-[5.5rem] italic text-brand-muted ml-8 md:ml-24 mt-2 md:mt-4 font-light tracking-tight">service.</span>
+                </h1>
+            </div>
+            
+            <div class="text-[9px] font-mono tracking-[0.2em] text-brand-text leading-[2.2] uppercase md:text-right">
+                VERSION // <span class="text-brand-muted">1.0</span><br>
+                EFFECTIVE // <span class="text-brand-muted">MAR 13, 2026</span><br>
+                STATUS // <span class="text-brand-text flex items-center md:justify-end gap-2 mt-1"><span class="w-1.5 h-1.5 bg-[#141413] rounded-full"></span> ACTIVE</span>
+            
+            </div>
+        </div>
+    </section>
+
+    <main class="w-full px-6 md:px-12 py-16 md:py-24 flex-1">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+            
+            <aside class="hidden md:block md:col-span-4 lg:col-span-3">
+                <div class="sticky top-32 flex flex-col gap-6 text-[9px] font-mono tracking-[0.2em] uppercase text-brand-muted">
+                    <div class="text-brand-text border-b border-brand-border/50 pb-4 mb-2">[ INDEX_NAV ]</div>
+                    
+                            <a href="#overview" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 01 . OVERVIEW ]
+                            </a>
+                            <a href="#services" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 02 . SERVICES ]
+                            </a>
+                            <a href="#accounts" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 03 . ACCOUNTS ]
+                            </a>
+                            <a href="#acceptable-use" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 04 . ACCEPTABLE USE ]
+                            </a>
+                            <a href="#ai-email" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 05 . AI & EMAIL ]
+                            </a>
+                            <a href="#ip" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 06 . IP RIGHTS ]
+                            </a>
+                            <a href="#disclaimers" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 07 . DISCLAIMERS ]
+                            </a>
+                            <a href="#liability" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 08 . LIABILITY ]
+                            </a>
+                            <a href="#termination" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 09 . TERMINATION ]
+                            </a>
+                            <a href="#contact" class="group flex items-center gap-3 hover:text-brand-text transition-colors duration-300">
+                                <span class="w-2 h-[1px] bg-brand-muted group-hover:bg-brand-text group-hover:w-4 transition-all duration-300 ease-system"></span> [ 10 . CONTACT ]
+                            </a>
+                </div>
+            </aside>
+
+            <article class="md:col-span-8 lg:col-span-7 max-w-2xl font-sans text-brand-text/80 text-[13px] md:text-[14px] leading-[2] md:leading-[2.2] tracking-wide font-light flex flex-col gap-16 md:gap-24">
+                
+<p class="text-[15px] md:text-[16px] text-brand-text font-normal leading-relaxed">
+    By accessing or using the Your AI Agent website, application, or related services, you agree to these Terms of Service. If you do not agree, do not use the Services.
+</p>
+
+<section id="overview" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 01 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Overview.</h2>
+    <p class="mb-4">
+        These Terms of Service ("Terms") govern your access to and use of the Your AI Agent website, mobile application, software, APIs, and related features (collectively, the "Services") offered by U AI Agent ("we," "us," or "our").
+    </p>
+    <p class="mb-4">
+        The Services are designed to help users manage customer communication, sales workflows, lead qualification, follow-up drafting, and related business operations using software automation, artificial intelligence, and third-party integrations.
+    </p>
+    <p>
+        We may update these Terms from time to time. When we make material changes, we may update the effective date above and publish the revised version on this page. Your continued use of the Services after updated Terms become effective means you accept the revised Terms.
+    </p>
+</section>
+
+<section id="services" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 02 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Services.</h2>
+    <p class="mb-4">
+        Your AI Agent may provide conversational interfaces, AI-generated sales suggestions, message drafting, follow-up generation, workflow recommendations, analytics, integrations with email providers such as Gmail, and other related features.
+    </p>
+    <p class="mb-4">
+        We may add, remove, suspend, or modify features at any time, including features offered on a beta, preview, or experimental basis. We do not guarantee that any particular feature will remain available.
+    </p>
+    <p>
+        The Services are provided for business productivity purposes only. They are not intended to provide legal, tax, accounting, employment, medical, or other regulated professional advice.
+    </p>
+</section>
+
+<section id="accounts" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 03 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Accounts and Eligibility.</h2>
+    <p class="mb-4">
+        You must be at least 18 years old and legally able to enter into a binding agreement to use the Services. If you use the Services on behalf of a company or other entity, you represent that you have authority to bind that entity to these Terms.
+    </p>
+    <p class="mb-4">
+        You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account. You must provide accurate information and keep it current.
+    </p>
+    <p>
+        You are responsible for ensuring that your use of the Services, including any messages sent through connected accounts, complies with the laws, regulations, contracts, and internal policies that apply to you and your business.
+    </p>
+</section>
+
+<section id="acceptable-use" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 04 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Acceptable Use.</h2>
+    <p class="mb-4">
+        You may not use the Services to violate any law, infringe any person's rights, or misuse the platform. Without limitation, you agree not to:
+    </p>
+    <ul class="list-none space-y-3 mb-6 font-mono text-[11px] tracking-wide text-brand-text/70 bg-white/40 p-6 border border-brand-border/50">
+        <li class="flex gap-4"><span class="text-brand-text">></span> Send unlawful, deceptive, fraudulent, harassing, abusive, defamatory, or spam communications.</li>
+        <li class="flex gap-4"><span class="text-brand-text">></span> Use the Services to store, transmit, or process malware, harmful code, or security exploits.</li>
+        <li class="flex gap-4"><span class="text-brand-text">></span> Attempt to probe, scan, reverse engineer, interfere with, or disrupt the Services or any connected systems.</li>
+        <li class="flex gap-4"><span class="text-brand-text">></span> Use the Services to access or process data without authorization or in violation of confidentiality obligations.</li>
+        <li class="flex gap-4"><span class="text-brand-text">></span> Use the Services to generate or distribute communications that violate anti-spam, advertising, privacy, consumer protection, or intellectual property laws.</li>
+        <li class="flex gap-4"><span class="text-brand-text">></span> Misrepresent the origin of a message, impersonate any person or entity, or provide false sender or subject information.</li>
+    </ul>
+    <p>
+        We may investigate misuse of the Services and suspend or terminate access where we believe use of the Services creates legal, security, reputational, or operational risk.
+    </p>
+</section>
+
+<section id="ai-email" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 05 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">AI Output and Email Integrations.</h2>
+    <p class="mb-4">
+        The Services may generate suggested text, follow-up drafts, classifications, recommendations, or other output using artificial intelligence. AI-generated output may be incomplete, inaccurate, unsuitable, or inappropriate for your particular use case and must be reviewed by you before use.
+    </p>
+    <p class="mb-4">
+        If you connect a third-party email or productivity account, including Gmail, you authorize us to interact with that account only as needed to provide the Services you request, subject to applicable permissions, platform rules, and our Privacy Policy.
+    </p>
+    <p class="mb-4">
+        You are solely responsible for all emails, messages, campaigns, attachments, recipients, claims, disclosures, and business decisions made through or based on the Services, whether the content was drafted by you, generated by AI, or sent through an integration.
+    </p>
+    <p>
+        You must ensure that your communications comply with all applicable email, marketing, privacy, consumer protection, and sector-specific legal requirements in the jurisdictions where you operate.
+    </p>
+</section>
+
+<section id="ip" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 06 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Intellectual Property Rights.</h2>
+    <p class="mb-4">
+        The Services, including our software, design, branding, interfaces, documentation, and all related intellectual property rights, are owned by or licensed to us and are protected by applicable law. Except for the limited right to use the Services in accordance with these Terms, no rights are granted to you.
+    </p>
+    <p class="mb-4">
+        As between you and us, you retain ownership of the content, data, prompts, files, and materials you submit to the Services, subject to any rights needed for us to operate, improve, secure, and support the Services as described in our Privacy Policy.
+    </p>
+    <p>
+        You may not copy, modify, distribute, sell, lease, sublicense, scrape, or create derivative works from the Services except as expressly permitted by us in writing or by applicable law.
+    </p>
+</section>
+
+<section id="disclaimers" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 07 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Disclaimers.</h2>
+    <p class="mb-4">
+        The Services are provided on an "as is" and "as available" basis. To the maximum extent permitted by law, we disclaim all warranties, whether express, implied, statutory, or otherwise, including any implied warranties of merchantability, fitness for a particular purpose, title, non-infringement, accuracy, quiet enjoyment, and uninterrupted availability.
+    </p>
+    <p class="mb-4">
+        We do not warrant that the Services will be error-free, secure, uninterrupted, or compatible with every device, browser, platform, workflow, or third-party service. We do not guarantee any sales, revenue, business, deliverability, response rates, or commercial outcomes.
+    </p>
+    <p>
+        No information or output provided through the Services creates legal, financial, tax, compliance, or other professional advice, and you remain solely responsible for your review, approvals, and decisions.
+    </p>
+</section>
+
+<section id="liability" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 08 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Limitation of Liability.</h2>
+    <p class="mb-4">
+        To the maximum extent permitted by law, U AI Agent and its officers, directors, employees, contractors, affiliates, licensors, and service providers will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, or for any loss of profits, revenue, goodwill, business opportunity, data, or use, arising out of or relating to the Services.
+    </p>
+    <p class="mb-4">
+        To the maximum extent permitted by law, our aggregate liability for all claims arising out of or relating to the Services will not exceed the greater of: (a) the amount you paid us for the Services in the 12 months before the event giving rise to the claim, or (b) one hundred U.S. dollars (US $100).
+    </p>
+    <p>
+        Some jurisdictions do not allow certain limitations of liability, so portions of this section may not apply to you to the extent prohibited by law.
+    </p>
+</section>
+
+<section id="termination" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 09 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Suspension and Termination.</h2>
+    <p class="mb-4">
+        We may suspend or terminate your access to all or part of the Services at any time, with or without notice, if we believe you have violated these Terms, created legal or security risk, failed to pay applicable fees, or if continued operation of the Services is no longer commercially or technically practical.
+    </p>
+    <p class="mb-4">
+        You may stop using the Services at any time. Termination does not relieve you of obligations accrued before termination, including payment obligations and provisions that by their nature should survive termination.
+    </p>
+    <p>
+        Sections relating to intellectual property, disclaimers, limitations of liability, indemnity, governing law, dispute resolution, and other provisions intended to survive will continue after termination.
+    </p>
+</section>
+
+<section id="contact" class="pt-8 u-line-t">
+    <div class="text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted mb-6">[ CLAUSE . 10 ]</div>
+    <h2 class="font-serif text-2xl md:text-3xl text-brand-text mb-6">Contact.</h2>
+    <p class="mb-8">
+        For questions about these Terms, legal notices, or compliance-related inquiries, please contact us at the email address below.
+    </p>
+    <a href="mailto:calliopes@uagent.app?subject=Legal%20Inquiry%20-%20Terms%20of%20Service" class="inline-flex items-center gap-4 text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text border border-brand-border px-6 py-4 hover:bg-brand-text hover:text-brand-bg transition-colors duration-300 group">
+        CONTACT LEGAL
+        <span class="hidden sm:inline">FEEDBACK</span>
+        <span class="sm:hidden">FEEDBACK</span>
+    </a>
+</section>
+
+            </article>
+        </div>
+    </main>
+
+    <footer class="w-full px-6 md:px-12 py-10 u-line-t mt-auto bg-brand-bg">
+        <div class="flex flex-col md:grid md:grid-cols-12 gap-8 items-start md:items-end text-[9px] font-mono tracking-[0.3em] uppercase text-brand-muted">
+            <div class="md:col-span-3 flex items-center gap-3 text-brand-text">
+                <div class="w-1.5 h-1.5 border border-brand-text bg-brand-text/20"></div>
+                [ U_END_SYS ]
+            </div>
+            <div class="md:col-span-4 flex items-center text-left">
+                &copy; 2026 U AI Agent. <br class="md:hidden">ALL PROTOCOLS RESERVED.
+            </div>
+            <div class="md:col-span-5 flex flex-col md:flex-row justify-start md:justify-end items-start md:items-center gap-6 w-full">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:border-r border-brand-border/50 md:pr-6 md:mr-2 w-full md:w-auto">
+<a href="terms.html" class="text-brand-text py-2 md:py-0 block"> Terms of Service</a>
+<span class="hidden md:inline text-brand-border">|</span>
+<a href="privacy.html" class="hover:text-brand-text transition-colors duration-300 py-2 md:py-0 block">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="mailto:calliopes@uagent.app" class="fixed bottom-0 right-4 md:right-12 z-50 flex items-center gap-2 md:gap-3 bg-brand-bg/95 backdrop-blur-md border-l border-t border-r border-brand-border px-4 md:px-5 py-3 md:py-3 text-[8px] md:text-[9px] font-mono tracking-[0.3em] uppercase text-brand-text hover:bg-brand-text hover:text-brand-bg transition-all duration-500 group translate-y-[1px] hover:translate-y-0">
+
+        <span class="hidden sm:inline">FEEDBACK</span>
+        <span class="sm:hidden">FEEDBACK</span>
+    </a>
+
+    <script>
+        const header = document.getElementById('sys-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                header.classList.add('bg-brand-bg/90', 'backdrop-blur-md', 'border-brand-border');
+                header.classList.remove('border-transparent');
+                header.classList.replace('py-5', 'py-3'); 
+                header.classList.replace('md:py-6', 'md:py-4'); 
+            } else {
+                header.classList.remove('bg-brand-bg/90', 'backdrop-blur-md', 'border-brand-border');
+                header.classList.add('border-transparent');
+                header.classList.replace('py-3', 'py-5'); 
+                header.classList.replace('md:py-4', 'md:py-6');
+            }
+        });
+    </script>
+</body>
+</html>
